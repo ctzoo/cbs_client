@@ -7,6 +7,9 @@ const cbsFetch = require('./cbs-fetch')
 const AdmZip = require('adm-zip')
 const fs = require('fs')
 const path = require('path')
+const socketIoJwt = require('socketio-jwt')
+const bodyParser = require('body-parser')
+const apiRouter = require('./apis')
 const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 
 const {
@@ -32,9 +35,11 @@ const app = express()
 const httpServer = http.Server(app)
 const io = socketIo(httpServer)
 
+const staticFileDir = path.join(process.cwd(), process.argv[2])
 app.use(helmet())
-app.use(express.static('./'))
-
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static(staticFileDir))
+app.use('/api', apiRouter)
 io.of('cbs_enquiry').on('connection', socket => {
   let name, currentSlice, sliceCount
   const buffers = []

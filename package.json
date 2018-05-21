@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:webpack-dev-server\"",
-    "dev:server": "node src/server/server.js",
+    "dev:server": "nodemon src/server/server.js dist --watch src/server",
     "dev:webpack-dev-server": "webpack-dev-server --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,11 +16,13 @@
   "dependencies": {
     "adm-zip": "^0.4.11",
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "bootstrap": "^4.1.1",
     "currency-codes": "^1.3.0",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "helmet": "^3.12.1",
+    "jsonwebtoken": "^8.2.1",
     "multer": "^1.3.0",
     "node-xlsx": "^0.12.0",
     "react": "^16.3.2",
@@ -45,6 +47,7 @@
     "concurrently": "^3.5.1",
     "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.2.0",
+    "nodemon": "^1.17.4",
     "style-loader": "^0.21.0",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.3",
