@@ -6,7 +6,8 @@ const cbs = require('./cbs')
 const cbsFetch = require('./cbs-fetch')
 const AdmZip = require('adm-zip')
 const fs = require('fs')
-const bootstrapBuf = fs.readFileSync('./bootstrap.min.css')
+const path = require('path')
+const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 
 const {
   BEGIN_UPLOAD_FILE,
