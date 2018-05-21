@@ -4,7 +4,7 @@ const xlsx = require('node-xlsx').default
 const pkg = require('./pkg')
 const unpkg = require('./unpkg')
 
-const { ERROR, VALIDATE_COMPLETED, BEGIN_PROC_WORKSHEET, ONE_RECORD_COMPLETED, WORKSHEET_COMPLETED } = require('../src/consts')
+const { ERROR, VALIDATE_COMPLETED, BEGIN_PROC_WORKSHEET, ONE_RECORD_COMPLETED, WORKSHEET_COMPLETED } = require('../../consts')
 
 const inputFieldNames = [
   'accountType',

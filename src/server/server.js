@@ -1,5 +1,6 @@
 const express = require('express')
 const http = require('http')
+const helmet = require('helmet')
 const socketIo = require('socket.io')
 const cbs = require('./cbs')
 const cbsFetch = require('./cbs-fetch')
@@ -24,15 +25,16 @@ const {
   BEGIN_DOWNLOAD_OK,
   SLICE_DOWNLOAD,
   SLICE_DOWNLOAD_OK,
-} = require('./src/consts')
+} = require('../consts')
 
 const app = express()
 const httpServer = http.Server(app)
 const io = socketIo(httpServer)
 
+app.use(helmet())
 app.use(express.static('./'))
 
-io.of('upload').on('connection', socket => {
+io.of('cbs_enquiry').on('connection', socket => {
   let name, currentSlice, sliceCount
   const buffers = []
   socket.on(BEGIN_UPLOAD_FILE, evt => {

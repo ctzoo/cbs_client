@@ -1,7 +1,5 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './my.css'
 import React from 'react'
-import { render } from 'react-dom'
+import io from 'socket.io-client'
 import {
   EXCEL_PROC,
   BEGIN_UPLOAD_FILE_OK,
@@ -20,14 +18,10 @@ import {
   BEGIN_DOWNLOAD_OK,
   SLICE_DOWNLOAD,
   SLICE_DOWNLOAD_OK,
-} from './consts'
-import { beginUploadFile } from './payloads'
-import io from 'socket.io-client'
-import { Logger, logger } from './logger'
+} from '../../../consts'
+import { Logger, logger } from '../Logger'
 
-const container = document.getElementById('container')
-
-class App extends React.Component {
+export default class CbsEnquiry extends React.Component {
   constructor(props) {
     super(props)
     const state = {
@@ -56,6 +50,7 @@ class App extends React.Component {
             a.download = 'cbs.zip'
             a.click()
             window.URL.revokeObjectURL(url)
+            document.body.removeChild(a)
           },
           err => {
             this.setState({ inputDisabled: false })
@@ -68,7 +63,7 @@ class App extends React.Component {
 
   sendFile(file, progressChangeCb, completeCb, errorCb) {
     logger.clear()
-    const socket = io('/upload')
+    const socket = io('/cbs_enquiry')
 
     const sliceCount = Math.ceil(file.size / SLICE_SIZE)
     let currentSlice = 0
@@ -144,5 +139,3 @@ class App extends React.Component {
     )
   }
 }
-
-render(<App />, container)
