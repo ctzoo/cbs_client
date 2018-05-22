@@ -1,18 +1,11 @@
 import { call, take, put, fork } from 'redux-saga/effects'
 import fetch from 'axios'
 import * as actions from './actions'
-import { selector } from './reducers'
 
 function login(username, password) {
   return fetch({ url: 'api/token', method: 'post', data: { username, password } })
     .then(res => ({ token: res.data.token }))
     .catch(err => ({ err: err.response.data }))
-}
-
-function validate(token) {
-  return fetch({ url: 'api/test', headers: { Authorization: 'Bearer ' + token } })
-    .then(() => true)
-    .catch(() => false)
 }
 
 function* fetchSaga(fn, ...args) {

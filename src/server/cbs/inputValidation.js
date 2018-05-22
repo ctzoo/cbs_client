@@ -1,4 +1,3 @@
-const xlsx = require('node-xlsx').default
 const cc = require('currency-codes')
 
 const productTypes = [
@@ -47,7 +46,7 @@ const amountCheck = str => {
   return match
     ? cc.codes().includes(match[2])
       ? null
-      : "Currency Code is't exist in ISO 4217"
+      : 'Currency Code not exist in ISO 4217'
     : 'Amount must be real type (15,2) and Currency Code must be 3 uppper char'
 }
 

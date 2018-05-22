@@ -1,8 +1,8 @@
 const xpath = require('xpath')
-const dom = require('xmldom').DOMParser
+const DOMParser = require('xmldom').DOMParser
 const dic = require('./dic')
 
-const gvd = (node, defautl = '') => (node ? node.textContent.trim() : '')
+const gvd = (node, d = '') => (node ? node.textContent.trim() : d)
 const getText = (xpathStr, node) => gvd(xpath.select1(xpathStr, node))
 
 const getObjectText = (fields, node) => {
@@ -132,8 +132,7 @@ const getAdditionalNames = consumer => {
         if (as[0] !== '') {
           return as[0]
         } else {
-          const [_, ...toal] = as
-          return as.reduce((s, e) => (e === '' ? s : s + ' ' + e))
+          return as.slic(1).reduce((s, e) => (e === '' ? s : s + ' ' + e))
         }
       },
     ],
@@ -241,12 +240,6 @@ const getSource = consumer => {
         name: 'SC_VAR_NAME',
         value: 'SC_VAR_VALUE',
       },
-      // sourceCard: 'SC_VARIABLES/SC_VARIABLE[normalize-space(SC_VAR_NAME)="Score Card"]/SC_VAR_VALUE',
-      // source: 'SC_VARIABLES/SC_VARIABLE[normalize-space(SC_VAR_NAME)="Score"]/SC_VAR_VALUE',
-      // riskGrade: 'SC_VARIABLES/SC_VARIABLE[normalize-space(SC_VAR_NAME)="Risk Grade"]/SC_VAR_VALUE',
-      // riskGradeDescription: 'SC_VARIABLES/SC_VARIABLE[normalize-space(SC_VAR_NAME)="Risk Grade Description"]/SC_VAR_VALUE',
-      // probabilityOfDefault: 'SC_VARIABLES/SC_VARIABLE[normalize-space(SC_VAR_NAME)="Probability of Default"]/SC_VAR_VALUE',
-      // riskOdds: 'SC_VARIABLES/SC_VARIABLE[normalize-space(SC_VAR_NAME)="Risk Odds"]/SC_VAR_VALUE',
     },
     explanationOfSource: {
       _path: '.',
@@ -256,11 +249,6 @@ const getSource = consumer => {
         name: 'SC_EXP_OF_VAR_NAME',
         value: 'SC_EXP_OF_VAR_VALUE',
       },
-      // sourceCard: 'SC_EXPLANATION_OF_VARIABLES/SC_EXPLANATION_OF_VARIABLE[normalize-space(SC_EXP_OF_VAR_NAME)="Score Card"]/SC_EXP_OF_VAR_VALUE',
-      // source: 'SC_EXPLANATION_OF_VARIABLES/SC_EXPLANATION_OF_VARIABLE[normalize-space(SC_EXP_OF_VAR_NAME)="Score"]/SC_EXP_OF_VAR_VALUE',
-      // probabilityOfDefault:
-      //   'SC_EXPLANATION_OF_VARIABLES/SC_EXPLANATION_OF_VARIABLE[normalize-space(SC_EXP_OF_VAR_NAME)="Probability of Default"]/SC_EXP_OF_VAR_VALUE',
-      // riskOdds: 'SC_EXPLANATION_OF_VARIABLES/SC_EXPLANATION_OF_VARIABLE[normalize-space(SC_EXP_OF_VAR_NAME)="Risk Odds"]/SC_EXP_OF_VAR_VALUE',
     },
     keyFactor: {
       _path: '.',
@@ -270,12 +258,6 @@ const getSource = consumer => {
         name: 'SC_KEY_FACTOR_NAME',
         value: 'SC_KEY_FACTOR_VALUE',
       },
-      // immatureCreditHistory: 'SC_KEY_FACTORS/SC_KEY_FACTOR[normalize-space(SC_KEY_FACTOR_NAME)="Immature Credit History"]/SC_KEY_FACTOR_VALUE',
-      // creditExposure: 'SC_KEY_FACTORS/SC_KEY_FACTOR[normalize-space(SC_KEY_FACTOR_NAME)="Credit Exposure"]/SC_KEY_FACTOR_VALUE',
-      // delinquencyPresence: 'SC_KEY_FACTORS/SC_KEY_FACTOR[normalize-space(SC_KEY_FACTOR_NAME)="Delinquency Presence"]/SC_KEY_FACTOR_VALUE',
-      // notEnoughCleanHistory: 'SC_KEY_FACTORS/SC_KEY_FACTOR[normalize-space(SC_KEY_FACTOR_NAME)="Not Enough Clean History"]/SC_KEY_FACTOR_VALUE',
-      // adverseCreditHistory: 'SC_KEY_FACTORS/SC_KEY_FACTOR[normalize-space(SC_KEY_FACTOR_NAME)="Adverse Credit History"]/SC_KEY_FACTOR_VALUE',
-      // tooManyEnquiries: 'SC_KEY_FACTORS/SC_KEY_FACTOR[normalize-space(SC_KEY_FACTOR_NAME)="Too Many Enquiries"]/SC_KEY_FACTOR_VALUE',
     },
     explanationOfKeyFactor: {
       _path: '.',
@@ -285,18 +267,6 @@ const getSource = consumer => {
         name: 'SC_EXP_OF_KEY_FACTOR_NAME',
         value: 'SC_EXP_OF_KEY_FACTOR_VALUE',
       },
-      // immatureCreditHistory:
-      //   'SC_EXPLANATION_OF_KEY_FACTORS/SC_EXPLANATION_OF_KEY_FACTOR[normalize-space(SC_EXP_OF_KEY_FACTOR_NAME)="Immature Credit History"]/SC_EXP_OF_KEY_FACTOR_VALUE',
-      // creditExposure:
-      //   'SC_EXPLANATION_OF_KEY_FACTORS/SC_EXPLANATION_OF_KEY_FACTOR[normalize-space(SC_EXP_OF_KEY_FACTOR_NAME)="Credit Exposure"]/SC_EXP_OF_KEY_FACTOR_VALUE',
-      // delinquencyPresence:
-      //   'SC_EXPLANATION_OF_KEY_FACTORS/SC_EXPLANATION_OF_KEY_FACTOR[normalize-space(SC_EXP_OF_KEY_FACTOR_NAME)="Delinquency Presence"]/SC_EXP_OF_KEY_FACTOR_VALUE',
-      // notEnoughCleanHistory:
-      //   'SC_EXPLANATION_OF_KEY_FACTORS/SC_EXPLANATION_OF_KEY_FACTOR[normalize-space(SC_EXP_OF_KEY_FACTOR_NAME)="Not Enough Clean History"]/SC_EXP_OF_KEY_FACTOR_VALUE',
-      // adverseCreditHistory:
-      //   'SC_EXPLANATION_OF_KEY_FACTORS/SC_EXPLANATION_OF_KEY_FACTOR[normalize-space(SC_EXP_OF_KEY_FACTOR_NAME)="Adverse Credit History"]/SC_EXP_OF_KEY_FACTOR_VALUE',
-      // tooManyEnquiries:
-      //   'SC_EXPLANATION_OF_KEY_FACTORS/SC_EXPLANATION_OF_KEY_FACTOR[normalize-space(SC_EXP_OF_KEY_FACTOR_NAME)="Too Many Enquiries"]/SC_EXP_OF_KEY_FACTOR_VALUE',
     },
   }
   return sourceNode ? getObjectText(fields, sourceNode) : ''
@@ -395,7 +365,7 @@ const getAggosbalances = consumer => {
 }
 
 module.exports = data => {
-  const doc = new dom().parseFromString(data)
+  const doc = new DOMParser().parseFromString(data)
   const state = xpath.select1('/RESPONSE/STATUS', doc).textContent.trim()
   if (state === 'OK') {
     return xpath.select('/RESPONSE/MESSAGE/ITEM', doc).map(e => {

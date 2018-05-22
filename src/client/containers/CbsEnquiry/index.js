@@ -1,7 +1,6 @@
 import React from 'react'
 import io from 'socket.io-client'
 import {
-  EXCEL_PROC,
   BEGIN_UPLOAD_FILE_OK,
   SLICE_UPLOAD_FILE,
   SLICE_UPLOAD_FILE_OK,
@@ -52,7 +51,7 @@ export default class CbsEnquiry extends React.Component {
             window.URL.revokeObjectURL(url)
             document.body.removeChild(a)
           },
-          err => {
+          () => {
             this.setState({ inputDisabled: false })
           }
         )
@@ -76,7 +75,7 @@ export default class CbsEnquiry extends React.Component {
       const blob = file.slice(currentSlice * SLICE_SIZE, ++currentSlice * SLICE_SIZE)
       const reader = new FileReader()
       reader.readAsArrayBuffer(blob)
-      reader.onload = evt => {
+      reader.onload = () => {
         socket.emit(SLICE_UPLOAD_FILE, { data: reader.result })
       }
     }

@@ -1,21 +1,21 @@
 const fetch = require('axios').default
-
-const clientId = 'testclientid'
-const userId = 'testuserid'
-let runNo = 0
-const cbsUrl = 'http://localhost:3001/cbs'
-
+const { getFetchSetting } = require('./storages/CBS')
 module.exports = async function cbsFetch(data) {
+  const { clientId, userId, runNo, cbsUrl, username, password } = await getFetchSetting()
   const cbsReq = data
     .replace('{clientId}', clientId)
     .replace('{userId}', userId)
-    .replace('{runNo}', runNo++)
+    .replace('{runNo}', runNo)
 
   const res = await fetch(cbsUrl, {
-    method: 'GET',
+    method: 'POST',
     data: cbsReq,
+    auth: {
+      username,
+      password,
+    },
     headers: {
-      'Content-Type': 'text/plain;charset=UTF-8',
+      'Content-Type': 'text/html;charset=UTF-8',
     },
   })
   return res.data

@@ -10,6 +10,7 @@ const path = require('path')
 const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
 const apiRouter = require('./apis')
+// eslint-disable-next-line
 const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 
 const {
@@ -21,10 +22,6 @@ const {
   SLICE_SIZE,
   SLICE_UPLOAD_FILE_OK,
   COMPLETED,
-  VALIDATE_COMPLETED,
-  BEGIN_PROC_WORKSHEET,
-  ONE_RECORD_COMPLETED,
-  WORKSHEET_COMPLETED,
   BEGIN_DOWNLOAD,
   BEGIN_DOWNLOAD_OK,
   SLICE_DOWNLOAD,
@@ -77,10 +74,10 @@ io.of('cbs_enquiry').on('connection', socket => {
             socket.emit(SLICE_DOWNLOAD, { data: blob, size: zipBuffer.length, completedSize: cs + blob.length })
           }
           socket.emit(BEGIN_DOWNLOAD, { size: zipBuffer.length })
-          socket.on(BEGIN_DOWNLOAD_OK, evt => {
+          socket.on(BEGIN_DOWNLOAD_OK, () => {
             sendSliceData()
           })
-          socket.on(SLICE_DOWNLOAD_OK, evt => {
+          socket.on(SLICE_DOWNLOAD_OK, () => {
             if (currentSlice !== count) {
               sendSliceData()
             } else {

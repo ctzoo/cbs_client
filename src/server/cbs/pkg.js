@@ -1,5 +1,3 @@
-const xlsx = require('node-xlsx').default
-
 const xlsxFieldNames = [
   'accountType',
   'amount',

@@ -1,9 +1,9 @@
 const level = require('level')
 
-db = level('./users_storage')
+const db = level('./storage_users')
 
-db.get('admin', (err, value) => {
-  if (err && err.name == 'NotFoundError') {
+db.get('admin', err => {
+  if (err && err.notFound) {
     db.put('s_admin', JSON.stringify({ username: 'admin', password: 'admin' }), () => {})
   }
 })
@@ -44,7 +44,12 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const stream = db.createValueStream()
       const sets = []
-      stream.on('data', user => sets.push(JSON.parse(user)))
+      stream.on('data', user => {
+        const ou = JSON.parse(user)
+        if (ou.username !== 'admin') {
+          sets.push(ou)
+        }
+      })
       stream.on('end', () => resolve(sets))
       stream.on('error', err => reject(err))
     })

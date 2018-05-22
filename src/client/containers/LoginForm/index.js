@@ -1,8 +1,7 @@
 import React from 'react'
-import fetch from 'axios'
 import { connect } from 'react-redux'
 import './login-form.css'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { selector } from '../../redux/reducers'
 import { loginReq } from '../../redux/actions'
 
