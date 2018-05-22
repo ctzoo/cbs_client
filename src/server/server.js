@@ -38,6 +38,7 @@ const io = socketIo(httpServer)
 const staticFileDir = path.join(process.cwd(), process.argv[2])
 app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use(express.static(staticFileDir))
 app.use('/api', apiRouter)
 io.of('cbs_enquiry').on('connection', socket => {
