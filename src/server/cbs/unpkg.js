@@ -162,6 +162,7 @@ const getAccountInfos = consumer => {
     openedDate: ['ACC_OPENED_DATE/ACC_OPENED_DAY', 'ACC_OPENED_DATE/ACC_OPENED_MONTH', 'ACC_OPENED_DATE/ACC_OPENED_YEAR', formatDate],
     closedDate: ['ACC_CLOSED_DATE/ACC_CLOSED_DAY', 'ACC_CLOSED_DATE/ACC_CLOSED_MONTH', 'ACC_CLOSED_DATE/ACC_CLOSED_YEAR', formatDate],
     overdueBalance: 'ACC_OVERDUE_BALANCE',
+    statusSummary: 'ACC_STATUS_SUMMARY',
     cashAdvance: 'ACC_CASH_ADVANCE_SUMMARY',
     fullPayment: 'ACC_FULL_PAYMENT_SUMMARY',
   }

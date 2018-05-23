@@ -21,7 +21,7 @@ const xlsxFieldNames = [
 
 const reqXml = `<?xml version="1.0" encoding="utf-8"?>
 <REQUEST>
-  <SERVICE>ENQUIRY</SERVICE>
+  <SERVICE>ENQLITSC</SERVICE>
   <ACTION>A</ACTION>
   <MESSAGE>
     <HEADER>

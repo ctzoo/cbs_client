@@ -176,7 +176,7 @@ const getAsH = hises =>
       his.accountType,
       his.openedDate + '<br />' + his.closedDate,
       his.overdueBalance,
-      his.cashAdvance + '<br />' + his.fullPayment,
+      his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
     ])
   )
 
