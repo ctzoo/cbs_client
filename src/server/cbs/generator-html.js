@@ -213,7 +213,9 @@ const getDrs = rs =>
 const kvFormat1 = vars =>
   vars.map(kv => (kv.name == '' ? '' : `<div class="row"><div class="col-4">${kv.name}</div><div class="col">${kv.value}</div></div>`)).join('')
 const kvFormat2 = vars => vars.map(kv => `${kv.name}<br />${kv.value}`).join('<br />')
-const getBs = rs => `
+const getBs = rs =>
+  rs.source &&
+  `
 <h6>Bureau Score</h6>
 <p>${rs.source.headerText}</p>
 ${kvFormat1(rs.source.vars)}

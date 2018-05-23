@@ -114,7 +114,7 @@ cbsConfigRouter
   .get((req, res, next) => {
     cbsDb
       .getConfig()
-      .then(config => (config ? res.json(config) : res.sendStatus(404)))
+      .then(config => (config ? res.json(config) : res.json({})))
       .catch(next)
   })
   .put((req, res, next) => {

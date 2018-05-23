@@ -8,6 +8,8 @@
     "dev": "concurrently --kill-others \"npm run dev:server\" \"npm run dev:webpack-dev-server\"",
     "dev:server": "nodemon src/server/server.js dist --watch src/server",
     "dev:webpack-dev-server": "webpack-dev-server --mode development",
+    "start": "node src/server/server.js dist",
+    "build": "npm i && webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

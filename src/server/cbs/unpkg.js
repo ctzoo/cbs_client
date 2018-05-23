@@ -288,8 +288,8 @@ const getNarratives = consumer => {
 const getLisReports = consumer => {
   const fields = {
     _path: '.',
-    litigationWrits: ['LIS_REPORTS/WRIT_COUNT', as => as.reduce((s, e) => s + parseInt(e), '')],
-    bankruptcyPetitions: ['LIS_REPORTS/BANKRUPTCY_PETITION_COUNT', as => as.reduce((s, e) => s + parseInt(e), '')],
+    litigationWrits: ['LIS_REPORTS/WRIT_COUNT', as => as.reduce((s, e) => s + (e == '' ? 0 : parseInt(e)), '')],
+    bankruptcyPetitions: ['LIS_REPORTS/BANKRUPTCY_PETITION_COUNT', as => as.reduce((s, e) => s + (e == '' ? 0 : parseInt(e)), '')],
     disclaimer: { _path: 'LIS_REPORTS/LIS_DISCLAIMER/LIS_DISCLAIMER_TEXT/LIS_DISCLAIMER_TEXT_LINE', _as: true },
     lisReports: {
       _path: 'LIS_REPORTS/LIS_REPORT',
