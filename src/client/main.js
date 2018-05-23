@@ -9,6 +9,9 @@ import { Provider, connect } from 'react-redux'
 import store from './redux/store'
 import { selector } from './redux/reducers'
 import LoginForm from './containers/LoginForm'
+import CbsConfig from './containers/CbsConfig'
+import Logout from './containers/Logout'
+import UserManager from './containers/UserManager'
 
 import { loginRes, logout } from './redux/actions'
 
@@ -46,8 +49,11 @@ const routes = (
   <Provider store={store}>
     <HashRouter>
       <Switch>
-        <PrivateRoute path="/home" component={CbsEnquiry} />
+        <PrivateRoute path="/home" component={UserManager} />
+        <PrivateRoute path="/def" component={CbsConfig} />
+        <PrivateRoute path="/abc" component={CbsEnquiry} />
         <Route path="/login" component={LoginForm} />
+        <Route path="/logout" component={Logout} />
         <Redirect from="/" to="/home" />
       </Switch>
     </HashRouter>

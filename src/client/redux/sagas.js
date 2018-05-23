@@ -1,6 +1,7 @@
 import { call, take, put, fork } from 'redux-saga/effects'
 import fetch from 'axios'
 import * as actions from './actions'
+import axios from 'axios'
 
 function login(username, password) {
   return fetch({ url: 'api/token', method: 'post', data: { username, password } })
@@ -28,8 +29,9 @@ function* loginSaga() {
     if (err) {
       yield put(actions.loginErr(err))
     } else {
-      yield put(actions.loginRes(token))
       yield call(() => window.localStorage.setItem('token', token))
+      yield call(() => (axios.defaults.headers.common['Authorization'] = 'Bearer ' + token))
+      yield put(actions.loginRes(token))
     }
   }
 }
@@ -47,7 +49,13 @@ function* loginSaga() {
 //   }
 // }
 
+function* updateAxios() {
+  const evt = yield take(actions.loginRes)
+  yield call(() => (axios.defaults.headers.common['Authorization'] = 'Bearer ' + evt.payload))
+}
+
 export default function* root() {
   yield fork(loginSaga)
   yield fork(logoutSaga)
+  yield fork(updateAxios)
 }

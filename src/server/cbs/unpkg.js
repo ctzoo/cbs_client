@@ -132,7 +132,7 @@ const getAdditionalNames = consumer => {
         if (as[0] !== '') {
           return as[0]
         } else {
-          return as.slic(1).reduce((s, e) => (e === '' ? s : s + ' ' + e))
+          return as.slice(1).reduce((s, e) => (e === '' ? s : s + ' ' + e))
         }
       },
     ],

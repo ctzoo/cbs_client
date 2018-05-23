@@ -4,6 +4,8 @@ const db = level('./storage_cbs')
 const CONFIG_KEY = 's_config'
 const RUN_NO_KEY = 's_run_no'
 
+// const stream = db.createReadStream()
+// stream.on('data', data => console.log(data))
 function atomCall(fn) {
   let p = Promise.resolve()
   return (...args) => {
@@ -15,7 +17,7 @@ function atomCall(fn) {
 function _getRunNo() {
   return db
     .get(RUN_NO_KEY)
-    .then(no => db.put(RUN_NO_KEY, no + 1).then(() => no.toString().padStart(7, '0')))
+    .then(no => db.put(RUN_NO_KEY, parseInt(no) + 1).then(() => no.toString().padStart(7, '0')))
     .catch(err => {
       if (err.notFound) {
         return db.put(RUN_NO_KEY, 1).then(() => '0000000')
@@ -31,6 +33,7 @@ function getConfig() {
     .get(CONFIG_KEY)
     .then(configStr => JSON.parse(configStr))
     .catch(err => {
+      // console.log(err)
       if (err.notFound) {
         return null
       } else {
@@ -47,6 +50,8 @@ module.exports = {
   getFetchSetting() {
     return getConfig()
       .then(config => {
+        // console.log(config)
+        // console.log(config === null)
         if (config === null) {
           throw new Error('no cbs config')
         } else {

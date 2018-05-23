@@ -35,6 +35,7 @@ router.use(
     secret: 'cuitao_secret',
   }).unless(req => req.url === '/token')
 )
+
 router.use((err, req, res, next) => (err.name === 'UnauthorizedError' ? res.status(401).send('invalid token...') : next()))
 router.use(formdataCheckMiddleware)
 router.use('/users', userRouter)

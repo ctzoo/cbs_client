@@ -7,11 +7,13 @@ const cbsFetch = require('./cbs-fetch')
 const AdmZip = require('adm-zip')
 const fs = require('fs')
 const path = require('path')
-const socketIoJwt = require('socketio-jwt')
+// TODO:
+// const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
 const apiRouter = require('./apis')
 // eslint-disable-next-line
 const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
+const logger = require('./logger')('server')
 
 const {
   BEGIN_UPLOAD_FILE,
@@ -39,6 +41,8 @@ app.use(bodyParser.json())
 app.use(express.static(staticFileDir))
 app.use('/api', apiRouter)
 io.of('cbs_enquiry').on('connection', socket => {
+  // TODO:
+  // eslint-disable-next-line
   let name, currentSlice, sliceCount
   const buffers = []
   socket.on(BEGIN_UPLOAD_FILE, evt => {
@@ -85,11 +89,20 @@ io.of('cbs_enquiry').on('connection', socket => {
             }
           })
         })
-        .catch(err => socket.emit(ERROR, err.toString()))
+        .catch(err => {
+          logger.error(err)
+          socket.emit(ERROR, err.toString())
+        })
     } else {
       socket.emit(SLICE_UPLOAD_FILE_OK)
     }
   })
 })
 
-httpServer.listen(3000, () => {})
+httpServer.listen(3000, err => {
+  if (err) {
+    logger.error(err)
+  } else {
+    logger.info('started')
+  }
+})
