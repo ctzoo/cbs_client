@@ -1,5 +1,4 @@
 const nd = require('./name-display')
-const unpkg = require('./unpkg')
 
 const template = container => `<!DOCTYPE html>
 <html lang="en">
@@ -304,8 +303,8 @@ ${getTable(
 )}
 `
 
-module.exports = (reqObj, respStr) =>
-  unpkg(respStr)
+module.exports = (reqObj, resObj) =>
+  resObj
     .map(item => {
       const enquiryInfo = item.enquiryInfo
       const disclaimer = item.disclaimer

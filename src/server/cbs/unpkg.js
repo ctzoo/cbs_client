@@ -1,6 +1,7 @@
 const xpath = require('xpath')
 const DOMParser = require('xmldom').DOMParser
 const dic = require('./dic')
+const logger = require('../logger')('unpack')
 
 const gvd = (node, d = '') => (node ? node.textContent.trim() : d)
 const getText = (xpathStr, node) => gvd(xpath.select1(xpathStr, node))
@@ -72,10 +73,12 @@ const getSummary = consumer => {
     accounts: 'ACCOUNT_COUNT',
     defaults: 'BAD_DEBT_COUNT',
     bankruptcyProceedings: 'BANKRUPTCY_COUNT',
-    securedCreditLimit: 'SECURED_CRL',
-    unsecuredCreditLimit: 'UNSECURED_CRL',
-    exemptedCreditLimit: 'EXEMPT_CRL',
+    noticeCount: 'NOTICE_COUNT',
+    securedCreditLimit: ['SECURED_CRL', as => as[0] || '0.00'],
+    unsecuredCreditLimit: ['UNSECURED_CRL', as => as[0] || '0.00'],
+    exemptedCreditLimit: ['EXEMPT_CRL', as => as[0] || '0.00'],
     debtManagementProgramme: 'DEBT_MGMT_FLAG',
+    creditFileAge: ['CRD_FILE_AGE/CFRD', 'CRD_FILE_AGE/CFRM', 'CRD_FILE_AGE/CFRY', formatDate],
     idTheft: 'ID_THEFT_FLAG',
     _12_BTI: 'BTI_12X_FLAG',
   }
@@ -357,9 +360,9 @@ const getAggosbalances = consumer => {
     _path: 'AGGOSBALANCES/AGGREGATE_OS_BAL',
     _as: true,
     osbDate: ['OSB_MONTH', 'OSB_YEAR', formatDate],
-    securedBalances: 'SECURED_OSB',
-    unsecuredInterestBearingBalances: 'IBUNSEC_OSB',
-    unsecuredNonInterestBearingBalances: 'NIBUSEC_OSB',
+    securedBalances: ['SECURED_OSB', as => as[0] || '0.00'],
+    unsecuredInterestBearingBalances: ['IBUNSEC_OSB', as => as[0] || '0.00'],
+    unsecuredNonInterestBearingBalances: ['NIBUSEC_OSB', as => as[0] || '0.00'],
     exemptedBalances: 'EXEMPTED_OSB',
   }
   return getObjectText(fields, consumer)
@@ -374,6 +377,8 @@ module.exports = data => {
       return {
         enquiryInfo: getEnquiryInfo(report),
         consumerInfos: xpath.select('CONSUMER_OUT', report).map(consumer => ({
+          applicantType: getText('APPLICANT_TYPE', consumer),
+          consumerSeq: getText('CONSUMER_SEQ', consumer),
           summary: getSummary(consumer),
           personalDetails: getPersonalDetails(consumer),
           additionalIdentifications: getAdditionalIdentifications(consumer),
@@ -394,6 +399,7 @@ module.exports = data => {
       }
     })
   } else {
-    return 'err'
+    logger.error('response status error: %o', data)
+    return []
   }
 }

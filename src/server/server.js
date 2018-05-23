@@ -64,11 +64,14 @@ io.of('cbs_enquiry').on('connection', socket => {
       socket.emit(UPLOAD_COMPLETED)
       const buffer = Buffer.concat(buffers)
       cbs(buffer, (evtType, msg) => socket.emit(evtType, msg), cbsFetch)
-        .then(htmls => {
+        .then(ret => {
           const zip = new AdmZip()
           zip.addFile('bootstrap.min.css', bootstrapBuf)
-          htmls.forEach(h => {
-            zip.addFile(h[0] + '.html', Buffer.from(h[1], 'utf8'))
+          ret.htmls.forEach(h => {
+            zip.addFile(h[0] + '.html', Buffer.from(h[1], 'utf-8'))
+          })
+          ret.txts.forEach(t => {
+            zip.addFile(t[0], Buffer.from(t[1], 'utf-8'))
           })
           const zipBuffer = zip.toBuffer()
           const count = Math.ceil(zipBuffer.length / SLICE_SIZE)

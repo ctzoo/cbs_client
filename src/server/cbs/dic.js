@@ -95,4 +95,8 @@ module.exports = {
     DEBTR: 'Debt Management - Payment',
     IDTHF: 'ID Theft ',
   },
+  getKey(dic, v) {
+    const keys = Object.keys(dic)
+    return keys.map(k => dic[k]).reduce((s, e, i) => (e === v ? keys[i] : s), '')
+  },
 }
