@@ -6,7 +6,15 @@ const xlsx = require('node-xlsx').default
 const pkg = require('./pkg')
 const unpkg = require('./unpkg')
 
-const { ERROR, VALIDATE_COMPLETED, BEGIN_PROC_WORKSHEET, ONE_RECORD_COMPLETED, WORKSHEET_COMPLETED } = require('../../consts')
+const {
+  ERROR,
+  VALIDATE_COMPLETED,
+  BEGIN_PROC_WORKSHEET,
+  ONE_RECORD_COMPLETED,
+  WORKSHEET_COMPLETED,
+  BOC_DTS_COMPLETED,
+  ERROR_REPORT_COMPLETED,
+} = require('../../consts')
 
 const inputFieldNames = [
   'accountType',
@@ -62,9 +70,11 @@ module.exports = async function(reqData /* request byte data */, ad /* action di
   }
 
   ret.txts = gt(allResData)
-  ret.pdfs = await gp(ret.htmls)
+  ad(BOC_DTS_COMPLETED)
+  ret.pdfs = await gp(ret.htmls, ad)
   if (errs.length > 0) {
     ret.err = errs.map(err => `req:\n${err.req}\n${''.padStart(80, '-')}\nres:\n${err.res}\n`).join(''.padStart(80, '='))
+    ad(ERROR_REPORT_COMPLETED)
   }
 
   return ret

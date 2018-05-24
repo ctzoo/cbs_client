@@ -17,6 +17,10 @@ import {
   BEGIN_DOWNLOAD_OK,
   SLICE_DOWNLOAD,
   SLICE_DOWNLOAD_OK,
+  BOC_DTS_COMPLETED,
+  ERROR_REPORT_COMPLETED,
+  BEGIN_PROC_PDF,
+  ONE_PDF_COMPLETED,
 } from '../../../consts'
 import { Logger, logger } from '../Logger'
 
@@ -123,6 +127,19 @@ export default class CbsEnquiry extends React.Component {
       logger.relog('progress: ' + evt.completedSize + '/' + evt.size)
       zipAs.push(evt.data)
       socket.emit(SLICE_DOWNLOAD_OK)
+    })
+    socket.on(BOC_DTS_COMPLETED, () => {
+      logger.log('BOC DTS proccess completed!')
+    })
+    socket.on(ERROR_REPORT_COMPLETED, () => {
+      logger.log('generate error report completed! ')
+    })
+    socket.on(BEGIN_PROC_PDF, msg => {
+      logger.log('proccess PDF')
+      logger.log('progress: 0/' + msg.count)
+    })
+    socket.on(ONE_PDF_COMPLETED, msg => {
+      logger.relog('progress: ' + msg.completedCount + '/' + msg.count)
     })
   }
 

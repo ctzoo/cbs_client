@@ -2,3 +2,4 @@ dist
 node_modules
 storage_*
 *.log
+.DS_Store
