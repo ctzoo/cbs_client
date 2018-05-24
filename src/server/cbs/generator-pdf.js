@@ -5,9 +5,9 @@ function myPdfTools(html) {
   return new Promise((resolve, reject) =>
     pdf
       .create(html, {
-        format: 'A3',
-        width: '500mm',
-        height: '900mm',
+        format: 'A4',
+        orientation: 'portrait',
+        margin: '1cm',
       })
       .toBuffer((err, buf) => (err ? reject(err) : resolve(buf)))
   )

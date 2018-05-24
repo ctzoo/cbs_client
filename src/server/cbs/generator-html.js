@@ -1,7 +1,8 @@
 const nd = require('./name-display')
 const path = require('path')
 const fs = require('fs')
-const cssBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
+// const cssBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
+const cssBuf = fs.readFileSync(path.join(__dirname, 'style.css'))
 
 const template = container =>
   `<!DOCTYPE html>
@@ -11,13 +12,14 @@ const template = container =>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Test</title>
+  <title>Credit Bureau (Singapore) Pet Ltd</title>
   <style type="text/css">{css-style}</style>
 </head>
 
 <body>
   <div class="container">
-    <h6 class="text-center">DRAFT OF V2.0 CONSUMER CREDIT REPORT SAMPLE (BANK’S VERSION)</h6>
+    <h5>Credit Bureau (Singapore) Pet Ltd</h6>
+    <div style="font-style: italic;">A subsidiary of Infocredit Holdings</div>
     ${container}
   </div>
 </body>
@@ -31,25 +33,18 @@ const getHead = (enquiryNo, enquiryDate, Reference) => `
 <table class="table">
 <tbody>
   <tr>
-    <td>Enquiry Number</td>
-    <td>${enquiryNo}</td>
-    <td>Enquiry Date</td>
-    <td>${enquiryDate}</td>
-  </tr>
-  <tr>
-    <td>Reference</td>
-    <td>${Reference}</td>
-    <td></td>
-    <td></td>
+    <td>Enquiry No.:${enquiryNo}</td>
+    <td>Client Ref.:${Reference}</td>
+    <td>Report Date:${enquiryDate}</td>
   </tr>
 </tbody>
 </table>
 `
 
 const getDataProvided = dataProvided => `
-<div class="col">
+<div class="table-half">
   <h6>Data Provided</h6>
-  <table class="table">
+  <table cellspacing="0" class="table">
     <tbody>
       <tr>
         <td>Name</td>
@@ -93,11 +88,11 @@ const kvTempG = (obj, cb, keys) =>
     return s + (e.startsWith('__') ? '' : cb(nd[e], obj[e], i))
   }, '')
 const getSummary = summary => {
-  const c = kvTempG(summary, (name, value) => `<tr><td>${name}</td><td>${value}</td></tr>`)
-  return `<div class="col"><h6>Summary</h6><table class="table"><tbody>${c}</tbody></table></div>`
+  const c = kvTempG(summary, (name, value) => `<tr><td>${name}</td><td class="text-right">${value}</td></tr>`)
+  return `<div class="table-half"><h6>Summary</h6><table cellspacing="0" class="table"><tbody>${c}</tbody></table></div>`
 }
 
-const getPS = (dataProvided, summary) => `<div class="row">${getDataProvided(dataProvided)}${getSummary(summary)}</div>`
+const getPS = (dataProvided, summary) => `<div>${getDataProvided(dataProvided)}${getSummary(summary)}</div>`
 const getPD = personal => {
   const pad = '<tr><td></td><td></td></tr>'
   const p1 = kvTempG(
@@ -133,17 +128,17 @@ const getPD = personal => {
       )
     )
     .join(pad)
-  const c = `<table class="table"><tbody>${p1}${pad}${p2}${pad}${p3}${pad}${p4}</tbody></table>`
-  return `<div class="row"><div class="col"><h6>Personal Details</h6>${c}</div><div class="col"></div></div>`
+  const c = `<table cellspacing="0" class="table"><tbody>${[p1, p2, p3, p4].join('<tr><td></td><td></td></tr>')}</tbody></table>`
+  return `<div class="table-half paddingR"><div><h6>Personal Details</h6>${c}</div><div class="col"></div></div>`
 }
 
-const getAI = ais => `<h6>Additional Identification</h6><table class="table">
+const getAI = ais => `<h6 class="h6-special">Additional Identification</h6><table cellspacing="0" class="table table-third">
   <thead><tr><th>${nd.dateLoaded}</th><th>${nd.idType}</th><th>${nd.idNumber}</th></tr></thead>
   <tbody>${ais.map(ai => `<tr><td>${ai.dateLoaded}</td><td>${ai.idType}</td><td>${ai.idNumber}</td></tr>`).join('')}</tbody>
 </table>`
 
-const getAn = ans => `<h6>Additional Names</h6>
-<table class="table">
+const getAn = ans => `<h6 class="h6-special">Additional Names</h6>
+<div table-half paddingR><table class="table">
 <thead>
   <tr>
     <th>${nd.dateLoaded}</th>
@@ -151,10 +146,10 @@ const getAn = ans => `<h6>Additional Names</h6>
   </tr>
 </thead>
 <tbody>${ans.map(an => `<tr><td>${an.dateLoaded}</td><td>${an.name}</td></tr>`).join('')}</tbody>
-</table>`
+</table></div>`
 
-const getEmp = emps => `<h6>Employment</h6>
-<table class="table">
+const getEmp = emps => `<h6 class="h6-special">Employment</h6>
+<table cellspacing="0" class="table table-third">
 <thead>
   <tr>
     <th>${nd.dateLoaded}</th>
@@ -165,12 +160,12 @@ const getEmp = emps => `<h6>Employment</h6>
 <tbody>${emps.map(o => `<tr><td>${o.dateLoaded}</td><td>${o.occupation}</td><td>${o.employer}</td></tr>`).join('')}</tbody>
 </table>`
 
-const getTable = (tn, cols, rows) =>
-  `<h6>${tn}</h6>${
+const getTable = (tn, cols, rows, tableclass = 'table') =>
+  `<h6 class="h6-special">${tn}</h6>${
     rows.length === 0
       ? '<p>Empty</p>'
-      : `<table class="table">
-<thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+      : `<table cellspacing="0" class="${tableclass}">
+<thead class="th-border"><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
 <tbody>${rows.map(r => '<tr>' + r.map(d => `<td>${d}</td>`).join('') + '</tr>').join('')}</tbody>
 </table>`
   }`
@@ -187,21 +182,24 @@ const getAsH = hises =>
       his.closedDate,
       his.overdueBalance,
       his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
-    ])
+    ]),
+    'table table-six'
   )
 
 const getPe = pes =>
   getTable(
     'Previous Enquiries',
     [nd.date, nd.enquiryType, nd.productType, nd.accountType],
-    pes.map(pe => [pe.date, pe.enquiryType, pe.productType, pe.accountType])
+    pes.map(pe => [pe.date, pe.enquiryType, pe.productType, pe.accountType]),
+    'table paddingT'
   )
 
 const getDr = drs =>
   getTable(
     'Default Records',
     [nd.productType, nd.client, nd.dateLoaded, nd.originalAmt, nd.balance, nd.status, nd.statusDate],
-    drs.map(dr => [dr.productType, dr.client, dr.dateLoaded, dr.originalAmt, dr.balance, dr.status, dr.statusDate])
+    drs.map(dr => [dr.productType, dr.client, dr.dateLoaded, dr.originalAmt, dr.balance, dr.status, dr.statusDate]),
+    'table table-senven paddingT'
   )
 
 const getTableHead = fields => `<thead><tr>${fields.map(f => `<th>${nd[f]}</th>`).join('')}</tr></thead>`
@@ -211,20 +209,21 @@ const getBp = bps => {
   const head = getTableHead(fields)
   const row = r => `<tr>${fields.map(f => `<td>${r[f]}</td>`).join('')}</tr><tr><td colspan="${fields.length}">${r.orderNature}</tr></tr>`
   const body = `<tbody>${bps.map(row).join('')}</tbody>`
-  return `<h6>Bankruptcy Proceedings</h6><table class="table">${head + body}</table>`
+  return `<h6 class="h6-special">Bankruptcy Proceedings</h6><table cellspacing="0" class="table table-five paddingT">${head + body}</table>`
 }
 
 const getDrs = rs =>
   getTable(
     'DRS Records',
     [nd.drsCaseNumber, nd.status, nd.commencementDate, nd.completionDate, nd.failureDate],
-    rs.map(r => [r.drsCaseNumber, r.status, r.commencementDate, r.completionDate, r.failureDate])
+    rs.map(r => [r.drsCaseNumber, r.status, r.commencementDate, r.completionDate, r.failureDate]),
+    'table table-five paddingT paging'
   )
 
-const kvFormat1 = vars =>
+const kvFormat1 = (vars, classes = 'line-text') =>
   vars
     .map(kv => {
-      return kv.name == '' ? '' : `<div class="row"><div class="col-4">${kv.name}</div><div class="col">${kv.value}</div></div>`
+      return kv.name == '' ? '' : `<div class="${classes}"><div>${kv.name}</div><div>${kv.value}</div></div>`
     })
     .join('')
 const getBs = rs =>
@@ -244,7 +243,7 @@ const getNar = ns => {
   const coverNs = ns.map(n => [n.dateLoaded, n.typeCode, n.texts.join('')])
   const row = r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`
   const body = coverNs.map(row)
-  return `<h6>Narratives</h6><table class="table">${head + body}</table>`
+  return `<h6>Narratives</h6><table class="table-text">${head + body}</table>`
 }
 // const getNar = ns => `<h6>Narratives</h6>
 // <table class="table">
@@ -272,12 +271,12 @@ const getLbsTable = data => {
   const head = `<thead><tr><th>${nd.dateLoaded}</th><th>${data.dateLoaded}</th></tr></thead>`
 
   const mkr = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`
-  return `<table>${head + fields.map(f => mkr(nd[f], data[f])).join('')}</table>`
+  return `<table cellspacing="0" class="table-texts">${head + fields.map(f => mkr(nd[f], data[f])).join('')}</table>`
 }
 
 const getLbs = rs => {
   const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
-  const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])
+  const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }], 'line-text lineW')
   const lwAndBpKv = r => r.litigationWrits.map(getLbsTable).join('') + r.bankruptcyPetitions.map(getLbsTable).join('')
   const reports = rs.lisReports.map(r => `Subject${subjectKv(r)}<br />${lwAndBpKv(r)}`).join('')
   return `<h6>Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
@@ -287,7 +286,8 @@ const getAgg = aggs =>
   getTable(
     'Aggregated Outstanding Balances',
     ['Date', nd.securedBalances, nd.unsecuredInterestBearingBalances, nd.unsecuredNonInterestBearingBalances, nd.exemptedBalances],
-    aggs.map(agg => [agg.osbDate, agg.securedBalances, agg.unsecuredInterestBearingBalances, agg.unsecuredNonInterestBearingBalances, agg.exemptedBalances])
+    aggs.map(agg => [agg.osbDate, agg.securedBalances, agg.unsecuredInterestBearingBalances, agg.unsecuredNonInterestBearingBalances, agg.exemptedBalances]),
+    'table-text table-text-senven paging'
   )
 
 module.exports = (reqObj, resObj) =>
