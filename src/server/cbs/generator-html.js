@@ -178,12 +178,13 @@ const getTable = (tn, cols, rows) =>
 const getAsH = hises =>
   getTable(
     'Account Status History',
-    [nd.productType, nd.grantorBank, nd.accountType, nd.dateOpenClose, nd.overdueBalance, nd.cf],
+    [nd.productType, nd.grantorBank, nd.accountType, nd.openedDate, nd.closedDate, nd.overdueBalance, nd.cf],
     hises.map(his => [
       his.productType,
       his.grantorBank,
       his.accountType,
-      his.openedDate + '<br />' + his.closedDate,
+      his.openedDate,
+      his.closedDate,
       his.overdueBalance,
       his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
     ])
@@ -192,8 +193,8 @@ const getAsH = hises =>
 const getPe = pes =>
   getTable(
     'Previous Enquiries',
-    [nd.date, nd.enquiryType, nd.accountType, nd.productType],
-    pes.map(pe => [pe.date, pe.enquiryType, pe.accountType, pe.productType])
+    [nd.date, nd.enquiryType, nd.productType, nd.accountType],
+    pes.map(pe => [pe.date, pe.enquiryType, pe.productType, pe.accountType])
   )
 
 const getDr = drs =>
@@ -203,15 +204,16 @@ const getDr = drs =>
     drs.map(dr => [dr.productType, dr.client, dr.dateLoaded, dr.originalAmt, dr.balance, dr.status, dr.statusDate])
   )
 
-const getBp = bps => `<h6>Bankruptcy Proceedings</h6>
-  <table class="table">
-    <thead><tr>${[nd.bankruptcyNumber, nd.orderDate, nd.petitionDate, nd.originalOrderDate, nd.gazetteDate].map(c => `<th>${c}</th>`).join('')}</tr></thead>
-    <tbody>${bps
-      .map(bp => [[bp.bankruptcyNumber, bp.orderDate, bp.petitionDate, bp.originalOrderDate, bp.gazetteDate], bp.orderNature])
-      .map(r => '<tr>' + r[0].map(d => `<td>${d}</td>`).join('') + '</tr>' + `<tr><td colspan="${r[0].length}">${r[1]}</td></tr>`)
-      .join('')}</tbody>
-  </table>
-  `
+const getTableHead = fields => `<thead><tr>${fields.map(f => `<th>${nd[f]}</th>`).join('')}</tr></thead>`
+
+const getBp = bps => {
+  const fields = ['bankruptcyNumber', 'orderDate', 'petitionDate', 'originalOrderDate', 'gazetteDate']
+  const head = getTableHead(fields)
+  const row = r => `<tr>${fields.map(f => `<td>${r[f]}</td>`).join('')}</tr><tr><td colspan="${fields.length}">${r.orderNature}</tr></tr>`
+  const body = `<tbody>${bps.map(row).join('')}</tbody>`
+  return `<h6>Bankruptcy Proceedings</h6><table class="table">${head + body}</table>`
+}
+
 const getDrs = rs =>
   getTable(
     'DRS Records',
@@ -220,7 +222,11 @@ const getDrs = rs =>
   )
 
 const kvFormat1 = vars =>
-  vars.map(kv => (kv.name == '' ? '' : `<div class="row"><div class="col-4">${kv.name}</div><div class="col">${kv.value}</div></div>`)).join('')
+  vars
+    .map(kv => {
+      return kv.name == '' ? '' : `<div class="row"><div class="col-4">${kv.name}</div><div class="col">${kv.value}</div></div>`
+    })
+    .join('')
 const getBs = rs =>
   rs.source &&
   `
@@ -232,84 +238,62 @@ ${kvFormat1(rs.source.vars)}
 
 const getNa = na => `<p>${na}</p>`
 
-const getNar = ns => `<h6>Narratives</h6>
-<table class="table">
-  <thead><tr>${[nd.dateLoaded, nd.type].map(c => `<th>${c}</th>`).join('')}</tr></thead>
-  <tbody>${ns
-    .map(n => [[n.dateLoaded, n.typeCode], n.texts.join(' ')])
-    .map(r => '<tr>' + r[0].map(d => `<td>${d}</td>`).join('') + '</tr>')
-    .join('')}</tbody>
-</table>
-`
+const getNar = ns => {
+  const fields = ['dateLoaded', 'type', 'texts']
+  const head = getTableHead(fields)
+  const coverNs = ns.map(n => [n.dateLoaded, n.typeCode, n.texts.join('')])
+  const row = r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`
+  const body = coverNs.map(row)
+  return `<h6>Narratives</h6><table class="table">${head + body}</table>`
+}
+// const getNar = ns => `<h6>Narratives</h6>
+// <table class="table">
+//   <thead><tr>${[nd.dateLoaded, nd.type, nd.texts].map(c => `<th>${c}</th>`).join('')}</tr></thead>
+//   <tbody>${ns
+//     .map(n => [[n.dateLoaded, n.typeCode], n.texts.join(' ')])
+//     .map(r => '<tr>' + r[0].map(d => `<td>${d}</td>`).join('') + '</tr>')
+//     .join('')}</tbody>
+// </table>
+// `
 
-const getDisc = disc => `<h6>Disclaimer</h6><p>${disc}</p>`
-const getLrBpPart = bp => `
-${kvFormat1(
-  ['defendantName', 'courtCode', 'caseNumber', 'dateFiled', 'natureOfClaim', 'status', 'statusDate', 'claimCurrency', 'claimAmount', 'plaintiffNames'].map(
-    n => ({ name: nd[n], value: bp[n] })
-  )
-)}
-`
-const getLrLwPart = lw => `
-${kvFormat1(
-  ['defendantName', 'courtCode', 'caseNumber', 'dateFiled', 'natureOfClaim', 'status', 'statusDate', 'claimCurrency', 'claimAmount', 'plaintiffNames'].map(
-    n => ({ name: nd[n], value: lw[n] })
-  )
-)}
-`
-const getLr = rs => `<h6>Litigation Writ and Bankruptcy Petition Search</h6>
-${kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])}
-<br />
-<p>${rs.disclaimer.map(txt => (txt === '' ? '<br />' : txt)).join('')}</p>
-${rs.lisReports
-  .map(
-    r => `
+const getLbsTable = data => {
+  const fields = [
+    'defendantName',
+    'courtCode',
+    'caseNumber',
+    'dateFiled',
+    'natureOfClaim',
+    'status',
+    'statusDate',
+    'claimCurrency',
+    'claimAmount',
+    'plaintiffNames',
+  ]
+  const head = `<thead><tr><th>${nd.dateLoaded}</th><th>${data.dateLoaded}</th></tr></thead>`
 
-Subject
-${kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])}
-<br/>
-${r.litigationWrits
-      .map(
-        lw =>
-          getTable('Litigation Writs', [nd.dateLoaded, nd.type, 'Publication'], [lw.dateLoaded, 'Litigation', 'InfoCredit Litigation Information']) +
-          getLrLwPart(lw)
-      )
-      .join('')}
-${r.bankruptcyPetitions
-      .map(
-        bp =>
-          getTable('Bankruptcy Petitions', [nd.dateLoaded, nd.type, 'Publication'], [[bp.dateLoaded, 'Litigation', 'InfoCredit Litigation Information']]) +
-          getLrBpPart(bp)
-      )
-      .join('')}
-`
-  )
-  .join('')}
-<br />
-`
+  const mkr = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`
+  return `<table>${head + fields.map(f => mkr(nd[f], data[f])).join('')}</table>`
+}
 
-const getAgg = aggs => `
-${getTable(
-  'Aggregated Outstanding Balances',
-  ['Product Group ', ...aggs.map(agg => agg.osbDate)],
-  aggs.reduce(
-    (s, e) => {
-      s[0].push(e.securedBalances)
-      s[1].push(e.unsecuredInterestBearingBalances)
-      s[2].push(e.unsecuredNonInterestBearingBalances)
-      s[3].push(e.exemptedBalances)
-      return s
-    },
-    [[nd.securedBalances], [nd.unsecuredInterestBearingBalances], [nd.unsecuredNonInterestBearingBalances], [nd.exemptedBalances]]
+const getLbs = rs => {
+  const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
+  const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])
+  const lwAndBpKv = r => r.litigationWrits.map(getLbsTable).join('') + r.bankruptcyPetitions.map(getLbsTable).join('')
+  const reports = rs.lisReports.map(r => `Subject${subjectKv(r)}<br />${lwAndBpKv(r)}`).join('')
+  return `<h6>Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
+}
+
+const getAgg = aggs =>
+  getTable(
+    'Aggregated Outstanding Balances',
+    ['Date', nd.securedBalances, nd.unsecuredInterestBearingBalances, nd.unsecuredNonInterestBearingBalances, nd.exemptedBalances],
+    aggs.map(agg => [agg.osbDate, agg.securedBalances, agg.unsecuredInterestBearingBalances, agg.unsecuredNonInterestBearingBalances, agg.exemptedBalances])
   )
-)}
-`
 
 module.exports = (reqObj, resObj) =>
   resObj
     .map(item => {
       const enquiryInfo = item.enquiryInfo
-      const disclaimer = item.disclaimer
       return item.consumerInfos.map(consumer => {
         const head = getHead(enquiryInfo.enquiryNo, enquiryDate, enquiryInfo.enquiryRef)
         const content =
@@ -326,7 +310,7 @@ module.exports = (reqObj, resObj) =>
           getNa(consumer.noAdverse) +
           getBs(consumer.source) +
           getNar(consumer.narratives) +
-          getLr(consumer.lisRerports) +
+          getLbs(consumer.lisRerports) +
           getAI(consumer.additionalIdentifications) +
           getAgg(consumer.aggosbalances) +
           '<p class="text-center border border-dark">End Of Report</p>'

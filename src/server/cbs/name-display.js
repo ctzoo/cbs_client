@@ -66,6 +66,7 @@ module.exports = {
   adverseCreditHistory: 'Adverse Credit History',
   tooManyEnquiries: 'Too Many Enquiries',
   type: 'Type',
+  texts: 'Text',
   litigationWrits: 'Litigation Writs',
   bankruptcyPetitions: 'Bankruptcy Petitions',
   defendantName: 'Defendant Name',
