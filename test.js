@@ -75,7 +75,9 @@
 // db1.createReadStream().on('data', data => console.log(data))
 
 const unpkg = require('./src/server/cbs/unpkg')
-const xml = `<RESPONSE>
+const xml = `<?xml version="1.0" standalone="yes"?>\r\n<RESPONSE xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="CBS_ENQUIRYR_V2.0.XSD">\r\n<SERVICE>ENQLITSC</SERVICE>\n  <ACTION>A</ACTION>\n  <STATUS>OK</STATUS><MESSAGE>\n    <HEADER>\n      <CLIENT_ID>15</CLIENT_ID>\n      <USER_ID>TESTBOCV2</USER_ID>\n      <VERSION_NO>2.0</VERSION_NO>\n      <RUN_NO>0000014</RUN_NO>\n<TOT_ITEMS>1</TOT_ITEMS><ERR_ITEMS>0</ERR_ITEMS><INF_ITEMS /></HEADER>                   \r\n<ITEM><RSP_ENQUIRY_REF>A2017020002</RSP_ENQUIRY_REF><RSP_REPORT><ENQUIRY_NUMBER>8865447</ENQUIRY_NUMBER><RSP_ENQUIRY_REF>A2017020002</RSP_ENQUIRY_REF><ENQUIRY_TYPE>NA</ENQUIRY_TYPE><ACCOUNT_TYPE>S</ACCOUNT_TYPE><PRODUCT_TYPE>UC</PRODUCT_TYPE><CONSUMER_OUT><CONSUMER_SEQ>1</CONSUMER_SEQ><APPLICANT_TYPE>P</APPLICANT_TYPE><PRIMARY_ID><PRI_ID_TYPE>WORK</PRI_ID_TYPE><PRI_ID_CODE>5A775B47A</PRI_ID_CODE></PRIMARY_ID><PRIMARY_NAME><PRI_UNFORMATTED>BLACK WIDOW</PRI_UNFORMATTED></PRIMARY_NAME><MARITAL_CODE>S</MARITAL_CODE><DATE_OF_BIRTH><DOB_YEAR>1978</DOB_YEAR><DOB_MONTH>09</DOB_MONTH><DOB_DAY>15</DOB_DAY></DATE_OF_BIRTH><GENDER_CODE>F</GENDER_CODE><NATIONALITY_CODE>CHN</NATIONALITY_CODE><ADDRESSES><RSP_ADDRESS><ADR_TYPE_CODE>U</ADR_TYPE_CODE><ADR_FORMAT_CODE>SL</ADR_FORMAT_CODE><ADR_NUMBER>03</ADR_NUMBER><ADR_STOREY>03</ADR_STOREY><ADR_UNIT>03</ADR_UNIT><ADR_STREET>SAMPLE ADDRESS</ADR_STREET><ADR_POST_CODE>765432</ADR_POST_CODE><ADR_CITY>SINGAPORE</ADR_CITY><ADR_COUNTRY>SGP</ADR_COUNTRY><ADR_STRING>765432</ADR_STRING><ADR_LOAD_DATE><ADR_LOAD_YEAR>2018</ADR_LOAD_YEAR><ADR_LOAD_MONTH>05</ADR_LOAD_MONTH><ADR_LOAD_DAY>02</ADR_LOAD_DAY></ADR_LOAD_DATE></RSP_ADDRESS><RSP_ADDRESS><ADR_TYPE_CODE>RESID</ADR_TYPE_CODE><ADR_FORMAT_CODE>P</ADR_FORMAT_CODE><ADR_POST_CODE>765432</ADR_POST_CODE><ADR_STRING>765432</ADR_STRING><ADR_LOAD_DATE><ADR_LOAD_YEAR>2018</ADR_LOAD_YEAR><ADR_LOAD_MONTH>04</ADR_LOAD_MONTH><ADR_LOAD_DAY>13</ADR_LOAD_DAY></ADR_LOAD_DATE></RSP_ADDRESS><RSP_ADDRESS><ADR_TYPE_CODE>RESID</ADR_TYPE_CODE><ADR_FORMAT_CODE>P</ADR_FORMAT_CODE><ADR_POST_CODE>520120</ADR_POST_CODE><ADR_STRING>520120</ADR_STRING><ADR_LOAD_DATE><ADR_LOAD_YEAR>2018</ADR_LOAD_YEAR><ADR_LOAD_MONTH>03</ADR_LOAD_MONTH><ADR_LOAD_DAY>22</ADR_LOAD_DAY></ADR_LOAD_DATE></RSP_ADDRESS></ADDRESSES><ADDITIONAL_IDS><ADDITIONAL_ID><AID_ID_TYPE_CODE>UNKN </AID_ID_TYPE_CODE><AID_ID_CODE>5A775B47A</AID_ID_CODE><AID_LOAD_DATE><AID_LOAD_YEAR>2017</AID_LOAD_YEAR><AID_LOAD_MONTH>12</AID_LOAD_MONTH><AID_LOAD_DAY>12</AID_LOAD_DAY></AID_LOAD_DATE></ADDITIONAL_ID></ADDITIONAL_IDS><ADDITIONAL_NAMES><ADDITIONAL_NAME><ANM_UNFORMATTED>TEST TDSR3</ANM_UNFORMATTED><ANM_LOAD_DATE><ANM_LOAD_YEAR>2018</ANM_LOAD_YEAR><ANM_LOAD_MONTH>05</ANM_LOAD_MONTH><ANM_LOAD_DAY>02</ANM_LOAD_DAY></ANM_LOAD_DATE></ADDITIONAL_NAME><ADDITIONAL_NAME><ANM_UNFORMATTED>6C374251DA91EC4A</ANM_UNFORMATTED><ANM_LOAD_DATE><ANM_LOAD_YEAR>2017</ANM_LOAD_YEAR><ANM_LOAD_MONTH>12</ANM_LOAD_MONTH><ANM_LOAD_DAY>12</ANM_LOAD_DAY></ANM_LOAD_DATE></ADDITIONAL_NAME></ADDITIONAL_NAMES><PREVIOUS_ENQUIRIES><PREVIOUS_ENQUIRY><IPI_ENQUIRY_TYPE>RV</IPI_ENQUIRY_TYPE><IPI_ACCOUNT_TYPE>S</IPI_ACCOUNT_TYPE><IPI_PRODUCT_TYPE>EE</IPI_PRODUCT_TYPE><IPI_LOAD_DATE><IPI_LOAD_YEAR>2018</IPI_LOAD_YEAR><IPI_LOAD_MONTH>05</IPI_LOAD_MONTH><IPI_LOAD_DAY>02</IPI_LOAD_DAY></IPI_LOAD_DATE></PREVIOUS_ENQUIRY><PREVIOUS_ENQUIRY><IPI_ENQUIRY_TYPE>NA</IPI_ENQUIRY_TYPE><IPI_ACCOUNT_TYPE>S</IPI_ACCOUNT_TYPE><IPI_PRODUCT_TYPE>RL</IPI_PRODUCT_TYPE><IPI_LOAD_DATE><IPI_LOAD_YEAR>2018</IPI_LOAD_YEAR><IPI_LOAD_MONTH>03</IPI_LOAD_MONTH><IPI_LOAD_DAY>22</IPI_LOAD_DAY></IPI_LOAD_DATE></PREVIOUS_ENQUIRY><PREVIOUS_ENQUIRY><IPI_ENQUIRY_TYPE>NA</IPI_ENQUIRY_TYPE><IPI_ACCOUNT_TYPE>S</IPI_ACCOUNT_TYPE><IPI_PRODUCT_TYPE>RL</IPI_PRODUCT_TYPE><IPI_LOAD_DATE><IPI_LOAD_YEAR>2018</IPI_LOAD_YEAR><IPI_LOAD_MONTH>03</IPI_LOAD_MONTH><IPI_LOAD_DAY>12</IPI_LOAD_DAY></IPI_LOAD_DATE></PREVIOUS_ENQUIRY></PREVIOUS_ENQUIRIES><SCORE><SC_HEADER><SC_HEADER_TEXT><![CDATA[Bureau Scorecards utilise all available data to calculate risk estimate. This is based on analysis of the association of all the data with future adverse outcomes.]]></SC_HEADER_TEXT></SC_HEADER><SC_DIAGRAM_VARIABLES><SC_DIAGRAM_FILE_NAME><![CDATA[]]></SC_DIAGRAM_FILE_NAME></SC_DIAGRAM_VARIABLES><SC_VARIABLES><SC_VARIABLE><SC_VAR_NAME><![CDATA[Score Card]]></SC_VAR_NAME><SC_VAR_VALUE><![CDATA[GEN02]]></SC_VAR_VALUE></SC_VARIABLE><SC_VARIABLE><SC_VAR_NAME><![CDATA[Score]]></SC_VAR_NAME><SC_VAR_VALUE><![CDATA[Not Applicable]]></SC_VAR_VALUE></SC_VARIABLE><SC_VARIABLE><SC_VAR_NAME><![CDATA[Risk Grade]]></SC_VAR_NAME><SC_VAR_VALUE><![CDATA[GX]]></SC_VAR_VALUE></SC_VARIABLE><SC_VARIABLE><SC_VAR_NAME><![CDATA[Risk Grade Description]]></SC_VAR_NAME><SC_VAR_VALUE><![CDATA[Inquiry records only (no public records / no trade)]]></SC_VAR_VALUE></SC_VARIABLE><SC_VARIABLE><SC_VAR_NAME><![CDATA[Probability of Default]]></SC_VAR_NAME><SC_VAR_VALUE><![CDATA[Not Applicable]]></SC_VAR_VALUE></SC_VARIABLE><SC_VARIABLE><SC_VAR_NAME><![CDATA[Risk Odds]]></SC_VAR_NAME><SC_VAR_VALUE><![CDATA[0.00:1]]></SC_VAR_VALUE></SC_VARIABLE></SC_VARIABLES><SC_EXPLANATION_OF_VARIABLES><SC_EXPLANATION_OF_VARIABLE><SC_EXP_OF_VAR_NAME><![CDATA[Score Card]]></SC_EXP_OF_VAR_NAME><SC_EXP_OF_VAR_VALUE><![CDATA[ Indentifies the Scorecard used to calculate Bureau Score]]></SC_EXP_OF_VAR_VALUE></SC_EXPLANATION_OF_VARIABLE><SC_EXPLANATION_OF_VARIABLE><SC_EXP_OF_VAR_NAME><![CDATA[Score]]></SC_EXP_OF_VAR_NAME><SC_EXP_OF_VAR_VALUE><![CDATA[ The score ranges from 1000 to 2000, where individuals scoring 1000 have the highest likelihood of defaulting on a repayment, where those who score 2000 have the lowest chance of reaching a delinquency status]]></SC_EXP_OF_VAR_VALUE></SC_EXPLANATION_OF_VARIABLE><SC_EXPLANATION_OF_VARIABLE><SC_EXP_OF_VAR_NAME><![CDATA[Probability of Default]]></SC_EXP_OF_VAR_NAME><SC_EXP_OF_VAR_VALUE><![CDATA[ The probability of the consumer defaulting based on the population average, within the next 12 months.]]></SC_EXP_OF_VAR_VALUE></SC_EXPLANATION_OF_VARIABLE><SC_EXPLANATION_OF_VARIABLE><SC_EXP_OF_VAR_NAME><![CDATA[Risk Odds]]></SC_EXP_OF_VAR_NAME><SC_EXP_OF_VAR_VALUE><![CDATA[ An odds-based measure of the likelihood of default within the next 12 months]]></SC_EXP_OF_VAR_VALUE></SC_EXPLANATION_OF_VARIABLE></SC_EXPLANATION_OF_VARIABLES><SC_KEY_FACTORS><SC_KEY_FACTOR><SC_KEY_FACTOR_NAME><![CDATA[]]></SC_KEY_FACTOR_NAME><SC_KEY_FACTOR_VALUE><![CDATA[]]></SC_KEY_FACTOR_VALUE></SC_KEY_FACTOR><SC_KEY_FACTOR><SC_KEY_FACTOR_NAME><![CDATA[]]></SC_KEY_FACTOR_NAME><SC_KEY_FACTOR_VALUE><![CDATA[]]></SC_KEY_FACTOR_VALUE></SC_KEY_FACTOR><SC_KEY_FACTOR><SC_KEY_FACTOR_NAME><![CDATA[]]></SC_KEY_FACTOR_NAME><SC_KEY_FACTOR_VALUE><![CDATA[]]></SC_KEY_FACTOR_VALUE></SC_KEY_FACTOR><SC_KEY_FACTOR><SC_KEY_FACTOR_NAME><![CDATA[]]></SC_KEY_FACTOR_NAME><SC_KEY_FACTOR_VALUE><![CDATA[]]></SC_KEY_FACTOR_VALUE></SC_KEY_FACTOR></SC_KEY_FACTORS><SC_EXPLANATION_OF_KEY_FACTORS><SC_EXPLANATION_OF_KEY_FACTOR><SC_EXP_OF_KEY_FACTOR_NAME><![CDATA[Immature Credit History]]></SC_EXP_OF_KEY_FACTOR_NAME><SC_EXP_OF_KEY_FACTOR_VALUE><![CDATA[ Immature credit history will generally contribute to the credit risk uncertainty]]></SC_EXP_OF_KEY_FACTOR_VALUE></SC_EXPLANATION_OF_KEY_FACTOR><SC_EXPLANATION_OF_KEY_FACTOR><SC_EXP_OF_KEY_FACTOR_NAME><![CDATA[Credit Exposure]]></SC_EXP_OF_KEY_FACTOR_NAME><SC_EXP_OF_KEY_FACTOR_VALUE><![CDATA[ The level of credit exposure will generally contribute to higher credit risk]]></SC_EXP_OF_KEY_FACTOR_VALUE></SC_EXPLANATION_OF_KEY_FACTOR><SC_EXPLANATION_OF_KEY_FACTOR><SC_EXP_OF_KEY_FACTOR_NAME><![CDATA[Delinquency Presence]]></SC_EXP_OF_KEY_FACTOR_NAME><SC_EXP_OF_KEY_FACTOR_VALUE><![CDATA[ The presence of the delinquency is generally indicative of higher credit risk]]></SC_EXP_OF_KEY_FACTOR_VALUE></SC_EXPLANATION_OF_KEY_FACTOR><SC_EXPLANATION_OF_KEY_FACTOR><SC_EXP_OF_KEY_FACTOR_NAME><![CDATA[Not Enough Clean History]]></SC_EXP_OF_KEY_FACTOR_NAME><SC_EXP_OF_KEY_FACTOR_VALUE><![CDATA[ Lack of clean credit history will generally contribute to higher credit risk]]></SC_EXP_OF_KEY_FACTOR_VALUE></SC_EXPLANATION_OF_KEY_FACTOR><SC_EXPLANATION_OF_KEY_FACTOR><SC_EXP_OF_KEY_FACTOR_NAME><![CDATA[Adverse Credit History]]></SC_EXP_OF_KEY_FACTOR_NAME><SC_EXP_OF_KEY_FACTOR_VALUE><![CDATA[ Adverse credit history is generally indicative of the higher credit risk]]></SC_EXP_OF_KEY_FACTOR_VALUE></SC_EXPLANATION_OF_KEY_FACTOR><SC_EXPLANATION_OF_KEY_FACTOR><SC_EXP_OF_KEY_FACTOR_NAME><![CDATA[Too Many Enquiries]]></SC_EXP_OF_KEY_FACTOR_NAME><SC_EXP_OF_KEY_FACTOR_VALUE><![CDATA[ The frequency and recency of credit applications may impact the credit risk assessment]]></SC_EXP_OF_KEY_FACTOR_VALUE></SC_EXPLANATION_OF_KEY_FACTOR></SC_EXPLANATION_OF_KEY_FACTORS></SCORE><NO_ADVERSE>No adverse information could be found on the subject.</NO_ADVERSE><SUMMARY><ACCOUNT_COUNT>0</ACCOUNT_COUNT><ENQUIRY_COUNT>3</ENQUIRY_COUNT><BAD_DEBT_COUNT>0</BAD_DEBT_COUNT><BANKRUPTCY_COUNT>0</BANKRUPTCY_COUNT><NOTICE_COUNT>0</NOTICE_COUNT><DEBT_MGMT_FLAG>N</DEBT_MGMT_FLAG><CRD_FILE_AGE><CRD_FILE_YEAR>1995</CRD_FILE_YEAR><CRD_FILE_MONTH>09</CRD_FILE_MONTH><CRD_FILE_DAY>14</CRD_FILE_DAY></CRD_FILE_AGE><SECURED_CRL>0.00</SECURED_CRL><UNSECURED_CRL>0.00</UNSECURED_CRL><EXEMPT_CRL>0.00</EXEMPT_CRL></SUMMARY><LIS_REPORTS><WRIT_COUNT>00000</WRIT_COUNT><BANKRUPTCY_PETITION_COUNT>00000</BANKRUPTCY_PETITION_COUNT><LIS_REPORT><SUBJECT_IDTYPE>UNKN</SUBJECT_IDTYPE><SUBJECT_IDNO>5A775B47A</SUBJECT_IDNO><LIS_MSG><LIS_MSG_TXT>There are no litigation details found on the subject</LIS_MSG_TXT></LIS_MSG></LIS_REPORT><LIS_REPORT><SUBJECT_IDTYPE>WORK</SUBJECT_IDTYPE><SUBJECT_IDNO>5A775B47A</SUBJECT_IDNO><LIS_MSG><LIS_MSG_TXT>There are no litigation details found on the subject</LIS_MSG_TXT></LIS_MSG></LIS_REPORT><LIS_DISCLAIMER><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>You have requested an additional search of the Litigation Writ and Bankruptcy Petition Database which is derived from publicly available Court records.</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>This information does not form part of the CBS credit report and is a separate service provided at your request.</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>Any information recorded below is based on a match to the ID of the subject and is provided as at the filing date of the write and/or petition. The information</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>may not reflect the current status or details of the writ and/or petition.</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>Users of this service is advised to seek an updated status of any writ and/or petition displayed.  We do not advise using writ and/or petition data</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>in isolation for credit assessment purposes.</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>No liability attaches to us with respect to the collation or supplying of the information or any use made of it and whether in relation to its accuracy or</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>completeness or any other matter whatsoever. We are entitled to indemnity from you against any claims or loss made or sustained in consequence of the</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT><LIS_DISCLAIMER_TEXT_LINE>provision of Litigation Writ and Bankruptcy Petition Information.</LIS_DISCLAIMER_TEXT_LINE></LIS_DISCLAIMER_TEXT></LIS_DISCLAIMER></LIS_REPORTS><AGGOSBALANCES><AGGREGATE_OS_BAL><OSB_MONTH>04</OSB_MONTH><OSB_YEAR>2018</OSB_YEAR><SECURED_OSB>3000.00</SECURED_OSB><IBUNSEC_OSB>0.00</IBUNSEC_OSB><NIBUSEC_OSB>0.00</NIBUSEC_OSB><EXEMPTED_OSB>0.00</EXEMPTED_OSB></AGGREGATE_OS_BAL><AGGREGATE_OS_BAL><OSB_MONTH>03</OSB_MONTH><OSB_YEAR>2018</OSB_YEAR><SECURED_OSB>3000.00</SECURED_OSB><IBUNSEC_OSB>0.00</IBUNSEC_OSB><NIBUSEC_OSB>0.00</NIBUSEC_OSB><EXEMPTED_OSB>0.00</EXEMPTED_OSB></AGGREGATE_OS_BAL><AGGREGATE_OS_BAL><OSB_MONTH>02</OSB_MONTH><OSB_YEAR>2018</OSB_YEAR><SECURED_OSB>3000.00</SECURED_OSB><IBUNSEC_OSB>0.00</IBUNSEC_OSB><NIBUSEC_OSB>0.00</NIBUSEC_OSB><EXEMPTED_OSB>0.00</EXEMPTED_OSB></AGGREGATE_OS_BAL><AGGREGATE_OS_BAL><OSB_MONTH>01</OSB_MONTH><OSB_YEAR>2018</OSB_YEAR><SECURED_OSB>6000.00</SECURED_OSB><IBUNSEC_OSB>0.00</IBUNSEC_OSB><NIBUSEC_OSB>0.00</NIBUSEC_OSB><EXEMPTED_OSB>0.00</EXEMPTED_OSB></AGGREGATE_OS_BAL><AGGREGATE_OS_BAL><OSB_MONTH>12</OSB_MONTH><OSB_YEAR>2017</OSB_YEAR><SECURED_OSB/><IBUNSEC_OSB/><NIBUSEC_OSB/><EXEMPTED_OSB/></AGGREGATE_OS_BAL><AGGREGATE_OS_BAL><OSB_MONTH>11</OSB_MONTH><OSB_YEAR>2017</OSB_YEAR><SECURED_OSB/><IBUNSEC_OSB/><NIBUSEC_OSB/><EXEMPTED_OSB/></AGGREGATE_OS_BAL></AGGOSBALANCES></CONSUMER_OUT><DISCLAIMER><![CDATA[ This information has been collated from various sources and does not represent the opinion of Credit Bureau (Singapore) Pte Ltd. No liability (in tort contract or otherwise howsoever) attaches to us with respect to the collation or supplying of the information or any use made of it and whether in relation to its accuracy or completeness or any other matter whatsoever. The information is supplied on a confidential basis to you and not for the use of any other party save of any person on whose behalf you have sought the information. We are entitled to indemnity from you against any claims or loss made or sustained in consequence of the provision of the information sought. Credit Bureau (Singapore) Pte Ltd scores are based on samples of historical information in our database and we do not warrant the accuracy of that information. Credit Bureau (Singapore) Pte Ltd uses reasonable efforts to ensure that samples are statistically valid, and that proven methods are used to develop scores. A score is not a replacement for any other information, or for decision making policies and procedures. Accordingly, Credit Bureau (Singapore) Pte Ltd does not accept liability for any decision you make using a score.]]></DISCLAIMER></RSP_REPORT></ITEM></MESSAGE>\r\n</RESPONSE>`
+
+const xml2 = `<RESPONSE>
 <SERVICE>ENQUIRY</SERVICE>
 <ACTION>A</ACTION>
 <STATUS>OK</STATUS>
@@ -602,121 +604,5 @@ const xml = `<RESPONSE>
   </ITEM>
 </MESSAGE>
 </RESPONSE>`
-
-const dic = require('./src/server/cbs/dic')
-const newline = require('os').EOL
-const consumerFieldLens = [50, 2, 5, 5, 20, 35, 35, 35, 105, 105, 5, 8, 5, 5, 256, 5, 5, 5, 5, 5, 1, 5, 5, 8, 1, 18, 18, 18, 1]
-const aggBalanceFieldLens = [50, 2, 2, 4, 18, 18, 18, 18]
-const scoringVarFieldLens = [50, 2, 30, 50, 2000]
-const previousEnquiryFieldLens = [50, 2, 5, 5, 5, 8]
-
-const pkg = unpkg(xml)
-function makeLine(vals, pads) {
-  return vals.map((v, i) => v.padEnd(pads[i], ' ')).join('')
-}
-function generateAggBanceStr(pkg) {
-  const retAs = []
-  let i = 0
-  for (const item of pkg) {
-    for (const consumer of item.consumerInfos) {
-      i++
-      for (const aggbalance of consumer.aggosbalances) {
-        const as = []
-        as.push(item.enquiryInfo.enquiryRef)
-        as.push(i.toString().padStart(2, ' '))
-        as.push(...aggbalance.osbDate.split('/'))
-        as.push(aggbalance.securedBalances)
-        as.push(aggbalance.unsecuredInterestBearingBalances)
-        as.push(aggbalance.unsecuredNonInterestBearingBalances)
-        as.push(aggbalance.exemptedBalances)
-        retAs.push(makeLine(as, aggBalanceFieldLens))
-      }
-    }
-  }
-  return retAs.join(newline)
-}
-
-function generateScoringVariableStr(pkg) {
-  const retAs = []
-  let i = 0
-  for (const item of pkg) {
-    for (const consumer of item.consumerInfos) {
-      i++
-      for (const v of consumer.source.source.vars) {
-        const as = []
-        as.push(item.enquiryInfo.enquiryRef)
-        as.push(i.toString().padStart(2, ' '))
-        as.push(v.name)
-        as.push(v.value)
-        as.push(consumer.source.source.headerText)
-        retAs.push(makeLine(as, scoringVarFieldLens))
-      }
-    }
-  }
-  return retAs.join(newline)
-}
-
-function generatePreviousEnquiry(pkg) {
-  const retAs = []
-  let i = 0
-  for (const item of pkg) {
-    for (const consumer of item.consumerInfos) {
-      i++
-      for (const previousEnquirie of consumer.previousEnquiries) {
-        const as = []
-        as.push(item.enquiryInfo.enquiryRef)
-        as.push(i.toString().padStart(2, ' '))
-        as.push(dic.getKey(dic.enquiryType, previousEnquirie.enquiryType))
-        as.push(dic.getKey(dic.accountType, previousEnquirie.accountType))
-        as.push(dic.getKey(dic.productType, previousEnquirie.productType))
-        as.push(previousEnquirie.date.split('/').reduce((s, e) => s + e.padStart(2, '0'), ''))
-        retAs.push(makeLine(as, previousEnquiryFieldLens))
-      }
-    }
-  }
-  return retAs.join(newline)
-}
-
-function generateConsumer(pkg) {
-  const retAs = []
-  let i = 0
-  for (const item of pkg) {
-    for (const consumer of item.consumerInfos) {
-      i++
-      const as = []
-      as.push(item.enquiryInfo.enquiryRef) // 1
-      as.push(i.toString().padStart(2, ' ')) // 2
-      as.push(consumer.applicantType) // 3
-      as.push(dic.getKey(consumer.personalDetails.idType, dic.idType)) // 4
-      as.push(consumer.personalDetails.idNumber) // 5
-      as.push(consumer.personalDetails.surname) // 6
-      as.push(consumer.personalDetails.firstName) // 7
-      as.push(consumer.personalDetails.secondName) // 8
-      as.push(consumer.personalDetails.foreNames) // 9
-      as.push(consumer.personalDetails.unformattedName) // 10
-      as.push(dic.getKey(consumer.personalDetails.maritalStatus, dic.maritalStatus)) // 11
-      as.push(consumer.personalDetails.dateOfBirth.split('/').reduce((s, e) => s + e.padStart(2, '0'), '')) // 12
-      as.push(dic.getKey(consumer.personalDetails.gender, dic.gender)) // 13
-      as.push(consumer.personalDetails.nationality) // 14
-      as.push(consumer.noAdverse) // 15
-      as.push(consumer.summary.accounts) // 16
-      as.push(consumer.summary.previousEnquiries) // 17
-      as.push(consumer.summary.defaults) // 18
-      as.push(consumer.summary.bankruptcyProceedings) // 19
-      as.push(consumer.summary.noticeCount) // 20
-      as.push(consumer.summary.debtManagementProgramme) // 21
-      as.push(consumer.lisRerports.litigationWrits) // 22
-      as.push(consumer.lisRerports.bankruptcyPetitions) // 23
-      as.push(consumer.summary.creditFileAge && consumer.summary.creditFileAge.split('/').reduce((s, e) => s + e.padStart(2, '0'), '')) // 24
-      as.push(consumer.summary.idTheft) // 25
-      as.push(consumer.summary.securedCreditLimit) // 26
-      as.push(consumer.summary.unsecuredCreditLimit) // 27
-      as.push(consumer.summary.exemptedCreditLimit) // 28
-      as.push(consumer.summary._12_BTI) // 29
-      retAs.push(makeLine(as, consumerFieldLens))
-    }
-  }
-  return retAs.join(newline)
-}
 // console.log(JSON.stringify(pkg, null, '  '))
-console.log(generateConsumer(pkg.concat(pkg)))
+console.log(unpkg(xml))

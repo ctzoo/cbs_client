@@ -11,6 +11,10 @@ const path = require('path')
 // TODO:
 // const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
+const pdf = require('html-pdf')
+function myPdfTools(html) {
+  return new Promise((resolve, reject) => pdf.create(html).toBuffer((err, buf) => (err ? reject(err) : resolve(buf))))
+}
 const apiRouter = require('./apis')
 // eslint-disable-next-line
 const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
@@ -64,12 +68,21 @@ io.of('cbs_enquiry').on('connection', socket => {
       socket.emit(UPLOAD_COMPLETED)
       const buffer = Buffer.concat(buffers)
       cbs(buffer, (evtType, msg) => socket.emit(evtType, msg), cbsFetch)
+        .then(async ret => {
+          ret.pdfs = []
+          for (const html of ret.htmls) {
+            const buf = await myPdfTools(html[1])
+            ret.pdfs.push([html[0] + '.pdf', buf])
+          }
+          return ret
+        })
         .then(ret => {
           const zip = new AdmZip()
-          zip.addFile('bootstrap.min.css', bootstrapBuf)
-          ret.htmls.forEach(h => {
-            zip.addFile(h[0] + '.html', Buffer.from(h[1], 'utf-8'))
-          })
+          // zip.addFile('bootstrap.min.css', bootstrapBuf)
+          // ret.htmls.forEach(h => {
+          //   zip.addFile(h[0] + '.html', Buffer.from(h[1].replace('{css-style}', bootstrapBuf), 'utf-8'))
+          // })
+          ret.pdfs.forEach(p => zip.addFile(p[0], p[1]))
           ret.txts.forEach(t => {
             zip.addFile(t[0], Buffer.from(t[1], 'utf-8'))
           })

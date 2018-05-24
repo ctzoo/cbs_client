@@ -81,7 +81,7 @@ function generateConsumer(pkg) {
       const as = []
       as.push(item.enquiryInfo.enquiryRef) // 1
       as.push(i.toString().padStart(2, ' ')) // 2
-      as.push(consumer.applicantType) // 3
+      as.push(consumer.__applicantType) // 3
       as.push(dic.getKey(consumer.personalDetails.idType, dic.idType)) // 4
       as.push(consumer.personalDetails.idNumber) // 5
       as.push(consumer.personalDetails.surname) // 6
@@ -98,11 +98,11 @@ function generateConsumer(pkg) {
       as.push(consumer.summary.previousEnquiries) // 17
       as.push(consumer.summary.defaults) // 18
       as.push(consumer.summary.bankruptcyProceedings) // 19
-      as.push(consumer.summary.noticeCount) // 20
+      as.push(consumer.summary.__noticeCount) // 20
       as.push(consumer.summary.debtManagementProgramme) // 21
       as.push(consumer.lisRerports.litigationWrits) // 22
       as.push(consumer.lisRerports.bankruptcyPetitions) // 23
-      as.push(consumer.summary.creditFileAge && consumer.summary.creditFileAge.split('/').reduce((s, e) => s + e.padStart(2, '0'), '')) // 24
+      as.push(consumer.summary.__creditFileAge && consumer.summary.__creditFileAge.split('/').reduce((s, e) => s + e.padStart(2, '0'), '')) // 24
       as.push(consumer.summary.idTheft) // 25
       as.push(consumer.summary.securedCreditLimit) // 26
       as.push(consumer.summary.unsecuredCreditLimit) // 27

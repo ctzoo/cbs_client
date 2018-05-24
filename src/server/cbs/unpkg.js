@@ -63,22 +63,27 @@ const getSummary = consumer => {
         d: 'ACC_OPENED_DATE/ACC_OPENED_DAY',
       },
       as => {
-        const minx = as[0]
+        const sortAs = as[0]
           .map(ymd => ({ y: ymd.y, m: ymd.m.padStart(2, '0'), d: ymd.d.padStart(2, '0') }))
-          .sort((a, b) => (a.y + a.m + a.d > b.y + b.m + b.d ? 1 : -1))[0]
-        return minx.d + '/' + minx.m + '/' + minx.y
+          .sort((a, b) => (a.y + a.m + a.d > b.y + b.m + b.d ? 1 : -1))
+        if (sortAs.length === 0) {
+          return ''
+        } else {
+          const minx = sortAs[0]
+          return minx.d + '/' + minx.m + '/' + minx.y
+        }
       },
     ],
     previousEnquiries: 'ENQUIRY_COUNT',
     accounts: 'ACCOUNT_COUNT',
     defaults: 'BAD_DEBT_COUNT',
     bankruptcyProceedings: 'BANKRUPTCY_COUNT',
-    noticeCount: 'NOTICE_COUNT',
+    __noticeCount: 'NOTICE_COUNT',
     securedCreditLimit: ['SECURED_CRL', as => as[0] || '0.00'],
     unsecuredCreditLimit: ['UNSECURED_CRL', as => as[0] || '0.00'],
     exemptedCreditLimit: ['EXEMPT_CRL', as => as[0] || '0.00'],
     debtManagementProgramme: 'DEBT_MGMT_FLAG',
-    creditFileAge: ['CRD_FILE_AGE/CFRD', 'CRD_FILE_AGE/CFRM', 'CRD_FILE_AGE/CFRY', formatDate],
+    __creditFileAge: ['CRD_FILE_AGE/CFRD', 'CRD_FILE_AGE/CFRM', 'CRD_FILE_AGE/CFRY', formatDate],
     idTheft: 'ID_THEFT_FLAG',
     _12_BTI: 'BTI_12X_FLAG',
   }
@@ -377,8 +382,8 @@ module.exports = data => {
       return {
         enquiryInfo: getEnquiryInfo(report),
         consumerInfos: xpath.select('CONSUMER_OUT', report).map(consumer => ({
-          applicantType: getText('APPLICANT_TYPE', consumer),
-          consumerSeq: getText('CONSUMER_SEQ', consumer),
+          __applicantType: getText('APPLICANT_TYPE', consumer),
+          __consumerSeq: getText('CONSUMER_SEQ', consumer),
           summary: getSummary(consumer),
           personalDetails: getPersonalDetails(consumer),
           additionalIdentifications: getAdditionalIdentifications(consumer),

@@ -8,7 +8,7 @@ const template = container => `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Test</title>
-  <link rel="stylesheet" href="bootstrap.min.css">
+  <style type="text/css">{css-style}</style>
 </head>
 
 <body>
@@ -84,7 +84,10 @@ const getDataProvided = dataProvided => `
 </div>
 `
 
-const kvTempG = (obj, cb, keys) => (keys || Object.keys(obj)).reduce((s, e, i) => s + cb(nd[e], obj[e], i), '')
+const kvTempG = (obj, cb, keys) =>
+  (keys || Object.keys(obj)).reduce((s, e, i) => {
+    return s + (e.startsWith('__') ? '' : cb(nd[e], obj[e], i))
+  }, '')
 const getSummary = summary => {
   const c = kvTempG(summary, (name, value) => `<tr><td>${name}</td><td>${value}</td></tr>`)
   return `<div class="col"><h6>Summary</h6><table class="table"><tbody>${c}</tbody></table></div>`
@@ -158,12 +161,15 @@ const getEmp = emps => `<h6>Employment</h6>
 <tbody>${emps.map(o => `<tr><td>${o.dateLoaded}</td><td>${o.occupation}</td><td>${o.employer}</td></tr>`).join('')}</tbody>
 </table>`
 
-const getTable = (tn, cols, rows) => `<h6>${tn}</h6>
-<table class="table">
-  <thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
-  <tbody>${rows.map(r => '<tr>' + r.map(d => `<td>${d}</td>`).join('') + '</tr>').join('')}</tbody>
-</table>
-`
+const getTable = (tn, cols, rows) =>
+  `<h6>${tn}</h6>${
+    rows.length === 0
+      ? '<p>Empty</p>'
+      : `<table class="table">
+<thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+<tbody>${rows.map(r => '<tr>' + r.map(d => `<td>${d}</td>`).join('') + '</tr>').join('')}</tbody>
+</table>`
+  }`
 
 const getAsH = hises =>
   getTable(
