@@ -11,10 +11,6 @@ const path = require('path')
 // TODO:
 // const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
-const pdf = require('html-pdf')
-function myPdfTools(html) {
-  return new Promise((resolve, reject) => pdf.create(html).toBuffer((err, buf) => (err ? reject(err) : resolve(buf))))
-}
 const apiRouter = require('./apis')
 // eslint-disable-next-line
 const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
@@ -68,14 +64,6 @@ io.of('cbs_enquiry').on('connection', socket => {
       socket.emit(UPLOAD_COMPLETED)
       const buffer = Buffer.concat(buffers)
       cbs(buffer, (evtType, msg) => socket.emit(evtType, msg), cbsFetch)
-        .then(async ret => {
-          ret.pdfs = []
-          for (const html of ret.htmls) {
-            const buf = await myPdfTools(html[1])
-            ret.pdfs.push([html[0] + '.pdf', buf])
-          }
-          return ret
-        })
         .then(ret => {
           const zip = new AdmZip()
           // zip.addFile('bootstrap.min.css', bootstrapBuf)
@@ -86,6 +74,9 @@ io.of('cbs_enquiry').on('connection', socket => {
           ret.txts.forEach(t => {
             zip.addFile(t[0], Buffer.from(t[1], 'utf-8'))
           })
+          if (ret.err) {
+            zip.addFile('errors.txt', Buffer.from(ret.err, 'utf-8'))
+          }
           const zipBuffer = zip.toBuffer()
           const count = Math.ceil(zipBuffer.length / SLICE_SIZE)
           let currentSlice = 0

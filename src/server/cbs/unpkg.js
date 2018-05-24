@@ -377,34 +377,40 @@ module.exports = data => {
   const doc = new DOMParser().parseFromString(data)
   const state = xpath.select1('/RESPONSE/STATUS', doc).textContent.trim()
   if (state === 'OK') {
-    return xpath.select('/RESPONSE/MESSAGE/ITEM', doc).map(e => {
-      const report = xpath.select1('RSP_REPORT', e)
-      return {
-        enquiryInfo: getEnquiryInfo(report),
-        consumerInfos: xpath.select('CONSUMER_OUT', report).map(consumer => ({
-          __applicantType: getText('APPLICANT_TYPE', consumer),
-          __consumerSeq: getText('CONSUMER_SEQ', consumer),
-          summary: getSummary(consumer),
-          personalDetails: getPersonalDetails(consumer),
-          additionalIdentifications: getAdditionalIdentifications(consumer),
-          additionalNames: getAdditionalNames(consumer),
-          employments: getEmployments(consumer),
-          accountStatusHistory: getAccountInfos(consumer),
-          previousEnquiries: getPreviousEnquiries(consumer),
-          defaultRecords: getDefaultRecords(consumer),
-          bankruptcyProceedings: getBankruptcyProceedings(consumer),
-          drsRecords: getDrsRecords(consumer),
-          source: getSource(consumer),
-          noAdverse: gvd(xpath.select1('NO_ADVERSE', consumer)),
-          narratives: getNarratives(consumer),
-          lisRerports: getLisReports(consumer),
-          aggosbalances: getAggosbalances(consumer),
-        })),
-        disclaimer: getText('DISCLAIMER', report),
-      }
-    })
+    return {
+      isErr: false,
+      items: xpath.select('/RESPONSE/MESSAGE/ITEM', doc).map(e => {
+        const report = xpath.select1('RSP_REPORT', e)
+        return {
+          enquiryInfo: getEnquiryInfo(report),
+          consumerInfos: xpath.select('CONSUMER_OUT', report).map(consumer => ({
+            __applicantType: getText('APPLICANT_TYPE', consumer),
+            __consumerSeq: getText('CONSUMER_SEQ', consumer),
+            summary: getSummary(consumer),
+            personalDetails: getPersonalDetails(consumer),
+            additionalIdentifications: getAdditionalIdentifications(consumer),
+            additionalNames: getAdditionalNames(consumer),
+            employments: getEmployments(consumer),
+            accountStatusHistory: getAccountInfos(consumer),
+            previousEnquiries: getPreviousEnquiries(consumer),
+            defaultRecords: getDefaultRecords(consumer),
+            bankruptcyProceedings: getBankruptcyProceedings(consumer),
+            drsRecords: getDrsRecords(consumer),
+            source: getSource(consumer),
+            noAdverse: gvd(xpath.select1('NO_ADVERSE', consumer)),
+            narratives: getNarratives(consumer),
+            lisRerports: getLisReports(consumer),
+            aggosbalances: getAggosbalances(consumer),
+          })),
+          disclaimer: getText('DISCLAIMER', report),
+        }
+      }),
+    }
   } else {
     logger.error('response status error: %o', data)
-    return []
+    return {
+      isErr: true,
+      res: data,
+    }
   }
 }
