@@ -129,7 +129,7 @@ export default class CbsEnquiry extends React.Component {
       socket.emit(SLICE_DOWNLOAD_OK)
     })
     socket.on(BOC_DTS_COMPLETED, () => {
-      logger.log('BOC DTS proccess completed!')
+      logger.log('generate BOC DTS completed!')
     })
     socket.on(ERROR_REPORT_COMPLETED, () => {
       logger.log('generate error report completed! ')
