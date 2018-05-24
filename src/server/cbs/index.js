@@ -52,8 +52,8 @@ module.exports = async function(reqData /* request byte data */, ad /* action di
       if (resData.isErr) {
         errs.push({ req: pkgs[j][1][i], res: resData.res })
       } else {
-        allResData = allResData.concat(resData.data)
-        const htmls = gh(reqData, resData.data)
+        allResData = allResData.concat(resData.items)
+        const htmls = gh(reqData, resData.items)
         ret.htmls = ret.htmls.concat(htmls)
       }
       ad(ONE_RECORD_COMPLETED, { name: pkgs[j][0], count: pkgs[j][1].length, completedCount: i + 1 })

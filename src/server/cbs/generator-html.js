@@ -1,6 +1,10 @@
 const nd = require('./name-display')
+const path = require('path')
+const fs = require('fs')
+const cssBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 
-const template = container => `<!DOCTYPE html>
+const template = container =>
+  `<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,7 +23,7 @@ const template = container => `<!DOCTYPE html>
 </body>
 
 </html>
-`
+`.replace('{css-style}', cssBuf)
 
 const enquiryDate = '17/05/2018'
 
@@ -217,7 +221,6 @@ const getDrs = rs =>
 
 const kvFormat1 = vars =>
   vars.map(kv => (kv.name == '' ? '' : `<div class="row"><div class="col-4">${kv.name}</div><div class="col">${kv.value}</div></div>`)).join('')
-const kvFormat2 = vars => vars.map(kv => `${kv.name}<br />${kv.value}`).join('<br />')
 const getBs = rs =>
   rs.source &&
   `
@@ -225,13 +228,6 @@ const getBs = rs =>
 <p>${rs.source.headerText}</p>
 ${kvFormat1(rs.source.vars)}
 <br />
-<p>Explanation of Scorecard values</p>
-<p>${kvFormat2(rs.explanationOfSource.vars)}</p>
-<p>Key Contributing Factors associated with this Rating</p>
-${kvFormat1(rs.keyFactor.vars)}
-<br />
-<p>Explanation of Key Contributing Factors</p>
-<p>${kvFormat2(rs.explanationOfKeyFactor.vars)}</p>
 `
 
 const getNa = na => `<p>${na}</p>`
@@ -241,7 +237,7 @@ const getNar = ns => `<h6>Narratives</h6>
   <thead><tr>${[nd.dateLoaded, nd.type].map(c => `<th>${c}</th>`).join('')}</tr></thead>
   <tbody>${ns
     .map(n => [[n.dateLoaded, n.typeCode], n.texts.join(' ')])
-    .map(r => '<tr>' + r[0].map(d => `<td>${d}</td>`).join('') + '</tr>' + `<tr><td colspan="${r[0].length}">${r[1]}</td></tr>`)
+    .map(r => '<tr>' + r[0].map(d => `<td>${d}</td>`).join('') + '</tr>')
     .join('')}</tbody>
 </table>
 `
@@ -320,7 +316,6 @@ module.exports = (reqObj, resObj) =>
           head +
           getPS(reqObj, consumer.summary) +
           getPD(consumer.personalDetails) +
-          getAI(consumer.additionalIdentifications) +
           getAn(consumer.additionalNames) +
           getEmp(consumer.employments) +
           getAsH(consumer.accountStatusHistory) +
@@ -328,13 +323,13 @@ module.exports = (reqObj, resObj) =>
           getDr(consumer.defaultRecords) +
           getBp(consumer.bankruptcyProceedings) +
           getDrs(consumer.drsRecords) +
-          getBs(consumer.source) +
           getNa(consumer.noAdverse) +
+          getBs(consumer.source) +
           getNar(consumer.narratives) +
-          getDisc(disclaimer) +
-          '<p class="text-center border border-dark">End Of Report</p>' +
           getLr(consumer.lisRerports) +
-          getAgg(consumer.aggosbalances)
+          getAI(consumer.additionalIdentifications) +
+          getAgg(consumer.aggosbalances) +
+          '<p class="text-center border border-dark">End Of Report</p>'
         return [`${enquiryInfo.enquiryRef}_${consumer.personalDetails.idNumber}`, template(content)]
       })
     })

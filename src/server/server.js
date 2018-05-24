@@ -6,14 +6,14 @@ const socketIo = require('socket.io')
 const cbs = require('./cbs')
 const cbsFetch = require('./cbs-fetch')
 const AdmZip = require('adm-zip')
-const fs = require('fs')
+// const fs = require('fs')
 const path = require('path')
 // TODO:
 // const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
 const apiRouter = require('./apis')
 // eslint-disable-next-line
-const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
+// const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 const logger = require('./logger')('server')
 
 const {
@@ -67,9 +67,9 @@ io.of('cbs_enquiry').on('connection', socket => {
         .then(ret => {
           const zip = new AdmZip()
           // zip.addFile('bootstrap.min.css', bootstrapBuf)
-          // ret.htmls.forEach(h => {
-          //   zip.addFile(h[0] + '.html', Buffer.from(h[1].replace('{css-style}', bootstrapBuf), 'utf-8'))
-          // })
+          ret.htmls.forEach(h => {
+            zip.addFile(h[0] + '.html', Buffer.from(h[1], 'utf-8'))
+          })
           ret.pdfs.forEach(p => zip.addFile(p[0], p[1]))
           ret.txts.forEach(t => {
             zip.addFile(t[0], Buffer.from(t[1], 'utf-8'))
