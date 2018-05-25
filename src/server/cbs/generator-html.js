@@ -231,7 +231,7 @@ const getBs = rs =>
   `
 <h6>Bureau Score</h6>
 <p>${rs.source.headerText}</p>
-${kvFormat1(rs.source.vars)}
+${kvFormat1(rs.source.vars, 'line-text lineW')}
 <br />
 `
 

@@ -49,9 +49,10 @@ const routes = (
   <Provider store={store}>
     <HashRouter>
       <Switch>
-        <PrivateRoute path="/home" component={UserManager} />
+        <PrivateRoute path="/home" component={CbsEnquiry} />
         <PrivateRoute path="/def" component={CbsConfig} />
         <PrivateRoute path="/abc" component={CbsEnquiry} />
+        <PrivateRoute path="/qwe" component={UserManager} />
         <Route path="/login" component={LoginForm} />
         <Route path="/logout" component={Logout} />
         <Redirect from="/" to="/home" />

@@ -67,9 +67,9 @@ io.of('cbs_enquiry').on('connection', socket => {
         .then(ret => {
           const zip = new AdmZip()
           // zip.addFile('bootstrap.min.css', bootstrapBuf)
-          ret.htmls.forEach(h => {
-            zip.addFile(h[0] + '.html', Buffer.from(h[1], 'utf-8'))
-          })
+          // ret.htmls.forEach(h => {
+          //   zip.addFile(h[0] + '.html', Buffer.from(h[1], 'utf-8'))
+          // })
           ret.pdfs.forEach(p => zip.addFile(p[0], p[1]))
           ret.txts.forEach(t => {
             zip.addFile(t[0], Buffer.from(t[1], 'utf-8'))
