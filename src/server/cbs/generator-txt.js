@@ -18,7 +18,7 @@ function generateAggBanceStr(pkg) {
       for (const aggbalance of consumer.aggosbalances) {
         const as = []
         as.push(item.enquiryInfo.enquiryRef)
-        as.push(i.toString().padStart(2, ' '))
+        as.push(' 1')
         as.push(...aggbalance.osbDate.split('/'))
         as.push(aggbalance.securedBalances)
         as.push(aggbalance.unsecuredInterestBearingBalances)
@@ -40,7 +40,7 @@ function generateScoringVariableStr(pkg) {
       for (const v of consumer.source.source.vars) {
         const as = []
         as.push(item.enquiryInfo.enquiryRef)
-        as.push(i.toString().padStart(2, ' '))
+        as.push(' 1')
         as.push(v.name)
         as.push(v.value)
         as.push(consumer.source.source.headerText)
@@ -60,7 +60,7 @@ function generatePreviousEnquiryStr(pkg) {
       for (const previousEnquirie of consumer.previousEnquiries) {
         const as = []
         as.push(item.enquiryInfo.enquiryRef)
-        as.push(i.toString().padStart(2, ' '))
+        as.push(' 1')
         as.push(dic.getKey(dic.enquiryType, previousEnquirie.enquiryType))
         as.push(dic.getKey(dic.accountType, previousEnquirie.accountType))
         as.push(dic.getKey(dic.productType, previousEnquirie.productType))
@@ -80,7 +80,7 @@ function generateConsumer(pkg) {
       i++
       const as = []
       as.push(item.enquiryInfo.enquiryRef) // 1
-      as.push(i.toString().padStart(2, ' ')) // 2
+      as.push(' 1') // 2
       as.push(consumer.__applicantType) // 3
       as.push(dic.getKey(consumer.personalDetails.idType, dic.idType)) // 4
       as.push(consumer.personalDetails.idNumber) // 5
