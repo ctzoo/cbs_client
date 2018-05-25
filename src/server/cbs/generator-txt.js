@@ -11,14 +11,12 @@ function makeLine(vals, pads) {
 
 function generateAggBanceStr(pkg) {
   const retAs = []
-  let i = 0
   for (const item of pkg) {
     for (const consumer of item.consumerInfos) {
-      i++
       for (const aggbalance of consumer.aggosbalances) {
         const as = []
         as.push(item.enquiryInfo.enquiryRef)
-        as.push(' 1')
+        as.push(consumer.__consumerSeq)
         as.push(...aggbalance.osbDate.split('/'))
         as.push(aggbalance.securedBalances)
         as.push(aggbalance.unsecuredInterestBearingBalances)
@@ -33,14 +31,12 @@ function generateAggBanceStr(pkg) {
 
 function generateScoringVariableStr(pkg) {
   const retAs = []
-  let i = 0
   for (const item of pkg) {
     for (const consumer of item.consumerInfos) {
-      i++
       for (const v of consumer.source.source.vars) {
         const as = []
         as.push(item.enquiryInfo.enquiryRef)
-        as.push(' 1')
+        as.push(consumer.__consumerSeq)
         as.push(v.name)
         as.push(v.value)
         as.push(consumer.source.source.headerText)
@@ -53,14 +49,12 @@ function generateScoringVariableStr(pkg) {
 
 function generatePreviousEnquiryStr(pkg) {
   const retAs = []
-  let i = 0
   for (const item of pkg) {
     for (const consumer of item.consumerInfos) {
-      i++
       for (const previousEnquirie of consumer.previousEnquiries) {
         const as = []
         as.push(item.enquiryInfo.enquiryRef)
-        as.push(' 1')
+        as.push(consumer.__consumerSeq)
         as.push(dic.getKey(dic.enquiryType, previousEnquirie.enquiryType))
         as.push(dic.getKey(dic.accountType, previousEnquirie.accountType))
         as.push(dic.getKey(dic.productType, previousEnquirie.productType))
@@ -74,13 +68,11 @@ function generatePreviousEnquiryStr(pkg) {
 
 function generateConsumer(pkg) {
   const retAs = []
-  let i = 0
   for (const item of pkg) {
     for (const consumer of item.consumerInfos) {
-      i++
       const as = []
       as.push(item.enquiryInfo.enquiryRef) // 1
-      as.push(' 1') // 2
+      as.push(consumer.__consumerSeq) // 2
       as.push(consumer.__applicantType) // 3
       as.push(dic.getKey(consumer.personalDetails.idType, dic.idType)) // 4
       as.push(consumer.personalDetails.idNumber) // 5
