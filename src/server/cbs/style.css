@@ -1,41 +1,108 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 12px;
+    font-size: 6.5pt;
     font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
 }
 
+/*页面内容初始化*/
+.container, .Aline {
+    float: left;
+    width: 98%;
+    margin-left: 1%;
+}
+
+/*字体*/
+.table, .table tr th, table tr td {
+    font-size: 6.5pt;
+}
+.font-italic {
+    font-style: italic;
+    margin-left: 9px;
+}
+/*行高*/
+.table tr {
+    line-height: 11px;
+}
+
+
+/*文字居左边*/
+.text-left {
+    text-align: left !important;
+}
+
 /*文字居中*/
+
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 
 /*文字居右*/
 .text-right {
-    text-align: right;
+    text-align: right !important;
 }
 
-/*标题*/
-h6 {
-    margin: 1.2em !important;
-    font-weight: 900 !important;
-    margin-left: 8px !important;
-    font-size: 13px;
+/*下边距 大 不常用*/
+.paging-max {
+    margin-bottom: 120px !important;
 }
 
-/*无下边距标题*/
-.h6-special {
-    float: left;
-    width: 100%;
+/*下边距 大 不常用*/
+.margin-max {
+    margin-top: 120px !important;
+}
+
+/*页面50%的占位符*/
+.placeholder-half {
+    padding-right: 50%;
+}
+
+/*无边距 内*/
+.none-padding {
+    padding: 0 !important;
+}
+
+/*无下边距 内*/
+.none-paddingB-th tr th  {
+    padding-bottom: 0 !important;
+}
+/*上边距边距 内*/
+.paddingT-th tr th {
+    padding-top: 10px !important;
+}
+/*无边距 外*/
+.none-margin {
+    margin: 0 !important;
+}
+
+/*删除上下边距*/
+.none-marginTB {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    padding-top: 24px;
-    font-weight: 900;
 }
 
-/*右边距 内*/
-.paddingR {
-    padding-right: 50%;
+/*删除左右边距*/
+.none-marginLR {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/*删除上边距*/
+.none-marginT {
+    margin-top: 0 !important;
+}
+
+/*删除下边距*/
+.none-marginB {
+    margin-bottom: 0 !important;
+}
+
+.paddingT-td tr td {
+    padding-top: 10px;
+}
+/*上边距设置 大*/
+.marginMax {
+    margin-top: 22px;
 }
 
 /*上边距 外*/
@@ -51,151 +118,74 @@ h6 {
 }
 
 /*每行设置下边距*/
-.paddingT tr td {
+.all-padding-td tr td {
     padding-top: 10px;
 }
 
-/*表格*/
-.table {
+/*标题*/
+h6 {
     float: left;
+    width: 98.5%;
+    font-size: 7.5pt;
+    font-weight: 900;
+    margin: 1.2em 8px 0 8px !important;
+}
+.h6-marginB {
+    margin-bottom: 1.2em !important;
+}
+
+/*p标签初始化*/
+p {
+    float: left;
+    width: 98%;
     text-align: left;
-    width: 100%;
-    padding: 0 8px;
-    font-weight: 400;
+    margin: 14px 8px !important;
 }
 
-/*一行两个表格*/
-.table-half {
-    width: 50%;
-    float: left;
+/*修改p标题上下边距*/
+.p-minM {
+    margin: 14px 0 !important;
 }
 
-.table tr th {
-    padding-bottom: 10px;
+/*div一行展示*/
+.Aline div {
+    display: inline-block;
 }
 
-/*行高*/
-.table tr {
-    line-height: 14px;
+/*同一行展示第一个div的宽度*/
+.Aline div:nth-child(1) {
+    width: 160px;
 }
 
-.table-half tr td {
-    width: 50%;
-}
-
-.table-third tr th, .table-third tr td {
-    width: 25%;
-}
-
-/*一行5列表格*/
-.table-five tr td {
-    width: 25%;
-}
-
-/*一行6列表格*/
-.table-six tr th, .table-third tr td {
-    width: 16%;
-}
-
-/*表头上下边线*/
-.th-border tr th {
+/*上下边线添加*/
+.borderTB, .borderTB-th {
     border-top: 1px dotted;
     border-bottom: 1px dotted;
     padding-bottom: 0 !important;
 }
 
-.table-six tr td {
-    padding-top: 10px;
-}
-
-/*一行7列表格*/
-.table-senven tr td {
-    width: 14%;
-}
-
-/*--------------------------------分页-------------------------*/
-.paging {
-    margin-bottom: 120px;
-}
-
-/*第二篇大div设置*/
-.page-text {
-    float: left;
-    width: 100%;
-    padding: 0 8px;
-}
-
-/*h6标签文字间距删除*/
-.page-text h6 {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-}
-
-/*p标签文字间距删除*/
-.page-text p {
-    margin: 14px 0 !important;
-}
-
-/*div一行展示*/
-.line-text div {
-    display: inline-block;
-}
-
-/*上下边线添加*/
-.text-border {
-    margin-bottom: 0 !important;
+/*上边线添加*/
+.borderT {
     border-top: 1px dotted;
+}
+
+
+/*下边线添加*/
+.borderB {
     border-bottom: 1px dotted;
 }
 
-/*去掉上边线*/
-.noneT {
-    border-top: none;
-}
-
-/*表格设置*/
-.table-text, .table-texts {
-    width: 100%;
-    padding: 0 !important;
-    text-align: left;
-}
-
-/*表头加粗去掉*/
-.table-texts tr th {
-    font-weight: 400;
+/*表头上下边线*/
+.borderTB-th tr th {
+    border-top: 1px dotted;
+    border-bottom: 1px dotted;
+    padding-bottom: 0 !important;
 }
 
 /*表头下边线设置*/
-.table-text tr th {
+.borderB-th tr th {
     border-bottom: 1px dotted;
-}
-
-/*end 文字设置*/
-.text-end {
-    text-align: center;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-}
-
-/*删除下边距*/
-.marginB-none, .text-h6 {
-    margin-bottom: 0 !important;
-}
-
-/*p文字边距设置*/
-p.text-theme {
-    width: 96%;
-    margin-left: 8px !important;
-}
-
-/*设置第一个div的宽度*/
-.lineW div:nth-child(1) {
-    width: 160px;
-}
-
-/*上边距设置*/
-.text-marginT {
-    margin-top: 22px;
+    padding-bottom: 0 !important;
 }
 
 /*第一列右边框设置*/
@@ -204,17 +194,64 @@ p.text-theme {
     border-right: 1px dotted;
 }
 
-/*一行7列表格设置*/
-.table-text-senven tr th,
-.table-text-senven tr td {
-    width: 14%;
-    text-align: center;
+/*去掉上边线*/
+.none-borderT {
+    border-top: none;
 }
 
+/*表格*/
+.table {
+    float: left;
+    text-align: left;
+    width: 100%;
+    padding: 0 8px !important;
+}
 
+.table tr th {
+    padding-bottom: 10px;
+}
 
+/*一行2列表格*/
+.table-half {
+    width: 50%;
+    float: left;
+}
 
+.table-half tr td {
+    width: 50%;
+}
 
+/*一行3列表格//每行3列时候加一个空的th和td标签//*/
+.table tr th,
+.table tr td,
+.table-three tr th,
+.table-three tr td {
+    width: 25%;
+}
 
+/*一行4列无需单独设置*/
+/*一行5列表格*/
+.table-five tr th,
+.table-five tr td {
+    width: 20%;
+}
 
+/*一行6列表格*/
+.table-six tr th,
+.table-six tr td {
+    width: 16%;
+}
+
+/*一行7列表格*/
+.table-senven tr th,
+.table-senven tr td {
+    width: 14%;
+}
+
+/*end 文字设置*/
+.text-end {
+    text-align: center;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
 
