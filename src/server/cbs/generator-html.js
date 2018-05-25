@@ -18,8 +18,8 @@ const template = container =>
 
 <body>
   <div class="container">
-    <h5>Credit Bureau (Singapore) Pet Ltd</h6>
-    <div style="font-style: italic;">A subsidiary of Infocredit Holdings</div>
+    <h6 class="h6-marginB">Credit Bureau (Singapore) Pet Ltd</h6>
+    <div class="font-italic">A subsidiary of Infocredit Holdings</div>
     ${container}
   </div>
 </body>
@@ -43,7 +43,7 @@ const getHead = (enquiryNo, enquiryDate, Reference) => `
 
 const getDataProvided = dataProvided => `
 <div class="table-half">
-  <h6>Data Provided</h6>
+  <h6 class="h6-marginB">Data Provided</h6>
   <table cellspacing="0" class="table">
     <tbody>
       <tr>
@@ -89,7 +89,7 @@ const kvTempG = (obj, cb, keys) =>
   }, '')
 const getSummary = summary => {
   const c = kvTempG(summary, (name, value) => `<tr><td>${name}</td><td class="text-right">${value}</td></tr>`)
-  return `<div class="table-half"><h6>Summary</h6><table cellspacing="0" class="table"><tbody>${c}</tbody></table></div>`
+  return `<div class="table-half"><h6 class="h6-marginB">Summary</h6><table cellspacing="0" class="table"><tbody>${c}</tbody></table></div>`
 }
 
 const getPS = (dataProvided, summary) => `<div>${getDataProvided(dataProvided)}${getSummary(summary)}</div>`
@@ -129,16 +129,16 @@ const getPD = personal => {
     )
     .join(pad)
   const c = `<table cellspacing="0" class="table"><tbody>${[p1, p2, p3, p4].join('<tr><td></td><td></td></tr>')}</tbody></table>`
-  return `<div class="table-half paddingR"><div><h6>Personal Details</h6>${c}</div><div class="col"></div></div>`
+  return `<div class="table-half placeholder-half"><div><h6 class="h6-marginB">Personal Details</h6>${c}</div></div>`
 }
 
-const getAI = ais => `<h6 class="h6-special">Additional Identification</h6><table cellspacing="0" class="table table-third">
+const getAI = ais => `<h6>Additional Identification</h6><table cellspacing="0" class="table table-three">
   <thead><tr><th>${nd.dateLoaded}</th><th>${nd.idType}</th><th>${nd.idNumber}</th></tr></thead>
   <tbody>${ais.map(ai => `<tr><td>${ai.dateLoaded}</td><td>${ai.idType}</td><td>${ai.idNumber}</td></tr>`).join('')}</tbody>
 </table>`
 
-const getAn = ans => `<h6 class="h6-special">Additional Names</h6>
-<div table-half paddingR><table class="table">
+const getAn = ans => `<h6>Additional Names</h6>
+<div class="table-half placeholder-half"><table class="table">
 <thead>
   <tr>
     <th>${nd.dateLoaded}</th>
@@ -148,8 +148,8 @@ const getAn = ans => `<h6 class="h6-special">Additional Names</h6>
 <tbody>${ans.map(an => `<tr><td>${an.dateLoaded}</td><td>${an.name}</td></tr>`).join('')}</tbody>
 </table></div>`
 
-const getEmp = emps => `<h6 class="h6-special">Employment</h6>
-<table cellspacing="0" class="table table-third">
+const getEmp = emps => `<h6>Employment</h6>
+<table cellspacing="0" class="table table-three">
 <thead>
   <tr>
     <th>${nd.dateLoaded}</th>
@@ -161,11 +161,11 @@ const getEmp = emps => `<h6 class="h6-special">Employment</h6>
 </table>`
 
 const getTable = (tn, cols, rows, tableclass = 'table') =>
-  `<h6 class="h6-special">${tn}</h6>${
+  `<h6>${tn}</h6>${
     rows.length === 0
       ? '<p>Empty</p>'
       : `<table cellspacing="0" class="${tableclass}">
-<thead class="th-border"><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+<thead class="borderTB-th"><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
 <tbody>${rows.map(r => '<tr>' + r.map(d => `<td>${d}</td>`).join('') + '</tr>').join('')}</tbody>
 </table>`
   }`
@@ -183,7 +183,7 @@ const getAsH = hises =>
       his.overdueBalance,
       his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
     ]),
-    'table table-six'
+    'table table-six paddingT-td'
   )
 
 const getPe = pes =>
@@ -191,7 +191,7 @@ const getPe = pes =>
     'Previous Enquiries',
     [nd.date, nd.enquiryType, nd.productType, nd.accountType],
     pes.map(pe => [pe.date, pe.enquiryType, pe.productType, pe.accountType]),
-    'table paddingT'
+    'table paddingT-td'
   )
 
 const getDr = drs =>
@@ -199,7 +199,7 @@ const getDr = drs =>
     'Default Records',
     [nd.productType, nd.client, nd.dateLoaded, nd.originalAmt, nd.balance, nd.status, nd.statusDate],
     drs.map(dr => [dr.productType, dr.client, dr.dateLoaded, dr.originalAmt, dr.balance, dr.status, dr.statusDate]),
-    'table table-senven paddingT'
+    'table table-senven paddingT-td'
   )
 
 const getTableHead = fields => `<thead><tr>${fields.map(f => `<th>${nd[f]}</th>`).join('')}</tr></thead>`
@@ -209,7 +209,7 @@ const getBp = bps => {
   const head = getTableHead(fields)
   const row = r => `<tr>${fields.map(f => `<td>${r[f]}</td>`).join('')}</tr><tr><td colspan="${fields.length}">${r.orderNature}</tr></tr>`
   const body = `<tbody>${bps.map(row).join('')}</tbody>`
-  return `<h6 class="h6-special">Bankruptcy Proceedings</h6><table cellspacing="0" class="table table-five paddingT">${head + body}</table>`
+  return `<h6>Bankruptcy Proceedings</h6><table cellspacing="0" class="table table-five paddingT-td">${head + body}</table>`
 }
 
 const getDrs = rs =>
@@ -217,10 +217,10 @@ const getDrs = rs =>
     'DRS Records',
     [nd.drsCaseNumber, nd.status, nd.commencementDate, nd.completionDate, nd.failureDate],
     rs.map(r => [r.drsCaseNumber, r.status, r.commencementDate, r.completionDate, r.failureDate]),
-    'table table-five paddingT paging'
+    'table table-five paiingT-td paging-max'
   )
 
-const kvFormat1 = (vars, classes = 'line-text') =>
+const kvFormat1 = (vars, classes = 'Aline') =>
   vars
     .map(kv => {
       return kv.name == '' ? '' : `<div class="${classes}"><div>${kv.name}</div><div>${kv.value}</div></div>`
@@ -231,11 +231,11 @@ const getBs = rs =>
   `
 <h6>Bureau Score</h6>
 <p>${rs.source.headerText}</p>
-${kvFormat1(rs.source.vars, 'line-text lineW')}
+${kvFormat1(rs.source.vars)}
 <br />
 `
 
-const getNa = na => `<p>${na}</p>`
+const getNa = na => `<p class="none-marginB">${na}</p>`
 
 const getNar = ns => {
   const fields = ['dateLoaded', 'type', 'texts']
@@ -243,7 +243,7 @@ const getNar = ns => {
   const coverNs = ns.map(n => [n.dateLoaded, n.typeCode, n.texts.join('')])
   const row = r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`
   const body = coverNs.map(row)
-  return `<h6>Narratives</h6><table class="table-text">${head + body}</table>`
+  return `<h6 class="h6-marginB">Narratives</h6><table class="table table-three">${head + body}</table>`
 }
 // const getNar = ns => `<h6>Narratives</h6>
 // <table class="table">
@@ -271,15 +271,15 @@ const getLbsTable = data => {
   const head = `<thead><tr><th>${nd.dateLoaded}</th><th>${data.dateLoaded}</th></tr></thead>`
 
   const mkr = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`
-  return `<table cellspacing="0" class="table-texts">${head + fields.map(f => mkr(nd[f], data[f])).join('')}</table>`
+  return `<table cellspacing="0" class="table none-paddingB-th paddingT-th">${head + fields.map(f => mkr(nd[f], data[f])).join('')}</table>`
 }
 
 const getLbs = rs => {
   const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
   const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }], 'line-text lineW')
   const lwAndBpKv = r => r.litigationWrits.map(getLbsTable).join('') + r.bankruptcyPetitions.map(getLbsTable).join('')
-  const reports = rs.lisReports.map(r => `Subject${subjectKv(r)}<br />${lwAndBpKv(r)}`).join('')
-  return `<h6>Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
+  const reports = rs.lisReports.map(r => `<P class="none-marginB">Subject</P>${subjectKv(r)}<br />${lwAndBpKv(r)}`).join('')
+  return `<h6 class="h6-marginB">Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
 }
 
 const getAgg = aggs =>
@@ -287,7 +287,7 @@ const getAgg = aggs =>
     'Aggregated Outstanding Balances',
     ['Date', nd.securedBalances, nd.unsecuredInterestBearingBalances, nd.unsecuredNonInterestBearingBalances, nd.exemptedBalances],
     aggs.map(agg => [agg.osbDate, agg.securedBalances, agg.unsecuredInterestBearingBalances, agg.unsecuredNonInterestBearingBalances, agg.exemptedBalances]),
-    'table-text table-text-senven paging'
+    'table table-five text-center paddingT-td'
   )
 
 module.exports = (reqObj, resObj) =>
