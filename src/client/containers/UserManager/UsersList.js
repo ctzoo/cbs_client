@@ -25,7 +25,7 @@ export default connect(state => ({ users: selector.users(state) }), { usersReq, 
         <table className="table">
           <thead>
             <tr>
-              <th>User Name</th>
+              <th>User Name ({this.props.users.length})</th>
               <th>Operation</th>
             </tr>
           </thead>
