@@ -6,14 +6,11 @@ const socketIo = require('socket.io')
 const cbs = require('./cbs')
 const cbsFetch = require('./cbs-fetch')
 const AdmZip = require('adm-zip')
-// const fs = require('fs')
 const path = require('path')
 // TODO:
 // const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
 const apiRouter = require('./apis')
-// eslint-disable-next-line
-// const bootstrapBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 const logger = require('./logger')('server')
 
 const {

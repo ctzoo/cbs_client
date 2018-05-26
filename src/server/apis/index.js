@@ -23,11 +23,8 @@ function formdataCheckMiddleware(req, res, next) {
 // #endregion middleware
 
 // #region router config
-// eslint-disable-next-line
 const router = express.Router()
-// eslint-disable-next-line
 const userRouter = express.Router()
-// eslint-disable-next-line
 const cbsConfigRouter = express.Router()
 
 router.use(
@@ -75,7 +72,7 @@ userRouter
   .get((req, res, next) => {
     userDb
       .all()
-      .then(us => res.json(us))
+      .then(us => res.json(us.map(u => ({ username: u.username }))))
       .catch(next)
   })
   .post((req, res, next) => {
@@ -96,7 +93,7 @@ userRouter
   .get((req, res, next) => {
     userDb
       .get(req.params.username)
-      .then(user => (user ? res.json(user) : res.sendStatus(404)))
+      .then(user => (user ? res.json({ username: user.username }) : res.sendStatus(404)))
       .catch(next)
   })
   .delete((req, res, next) => {
