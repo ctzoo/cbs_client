@@ -3,17 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './my.css'
 import React from 'react'
 import { render } from 'react-dom'
-import CbsEnquiry from './containers/CbsEnquiry'
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { Provider, connect } from 'react-redux'
 import store from './redux/store'
 import { selector } from './redux/reducers'
 import LoginForm from './containers/LoginForm'
-import CbsConfig from './containers/CbsConfig'
 import Logout from './containers/Logout'
-import UserManager from './containers/UserManager'
+import Home from './containers/Home'
 
-import { loginRes, logout } from './redux/actions'
+import { loginRes } from './redux/actions'
 
 function initToken() {
   const token = window.localStorage.getItem('token')
@@ -24,7 +22,6 @@ function initToken() {
 
 initToken()
 
-window.lo = () => store.dispatch(logout())
 const container = document.getElementById('container')
 
 const PrivateRoute = connect(s => ({ isLogin: selector.isLogin(s) }))(({ component: Component, isLogin, ...rest }) => (
@@ -49,10 +46,7 @@ const routes = (
   <Provider store={store}>
     <HashRouter>
       <Switch>
-        <PrivateRoute path="/home" component={CbsEnquiry} />
-        <PrivateRoute path="/def" component={CbsConfig} />
-        <PrivateRoute path="/abc" component={CbsEnquiry} />
-        <PrivateRoute path="/qwe" component={UserManager} />
+        <PrivateRoute path="/home" component={Home} />
         <Route path="/login" component={LoginForm} />
         <Route path="/logout" component={Logout} />
         <Redirect from="/" to="/home" />

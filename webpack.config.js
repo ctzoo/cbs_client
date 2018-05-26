@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// eslint-disable-next-line
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
   devServer: {
     port: 2999,
     open: true,
+    historyApiFallback: true,
     proxy: {
       '/api': 'http://localhost:3000',
       '/socket.io': {

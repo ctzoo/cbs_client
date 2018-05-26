@@ -20,15 +20,24 @@ export const fetchStatusReducer = createReducer(
   false
 )
 
+export const usersReducer = createReducer(
+  {
+    [actions.users]: (s, users) => users,
+  },
+  []
+)
+
 export const selector = {
   token: s => s.login.token,
   user: s => s.login.user,
-  isLogin: s => s.login.user,
+  isLogin: s => s.login.isLogin,
   err: s => s.login.err,
   fetchStatus: s => s.fetchStatus,
+  users: s => s.users,
 }
 
 export default combineReducers({
   login: loginReducer,
   fetchStatus: fetchStatusReducer,
+  users: usersReducer,
 })

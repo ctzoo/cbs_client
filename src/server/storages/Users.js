@@ -15,7 +15,7 @@ module.exports = {
       db.get(key, (err, value) => {
         if (err) {
           if (err.name === 'NotFoundError') {
-            resolve()
+            resolve(null)
           } else {
             reject(err)
           }

@@ -29,8 +29,7 @@ export default class CbsConfig extends React.Component {
 
   render() {
     return (
-      <form className="container" onSubmit={this.onSubmit}>
-        <h4 className="text-center">CBS Config</h4>
+      <form onSubmit={this.onSubmit}>
         <fieldset disabled={this.state.fetching}>
           {fields.map(f => (
             <div key={f} className="form-group">

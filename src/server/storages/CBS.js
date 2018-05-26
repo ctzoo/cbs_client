@@ -3,9 +3,8 @@ const level = require('level')
 const db = level('./storage_cbs')
 const CONFIG_KEY = 's_config'
 const RUN_NO_KEY = 's_run_no'
+// const getRefKey = refNo => 'r_' + refNo
 
-// const stream = db.createReadStream()
-// stream.on('data', data => console.log(data))
 function atomCall(fn) {
   let p = Promise.resolve()
   return (...args) => {
@@ -28,12 +27,12 @@ function _getRunNo() {
 }
 
 const getRunNo = atomCall(_getRunNo)
+
 function getConfig() {
   return db
     .get(CONFIG_KEY)
     .then(configStr => JSON.parse(configStr))
     .catch(err => {
-      // console.log(err)
       if (err.notFound) {
         return null
       } else {
@@ -41,9 +40,15 @@ function getConfig() {
       }
     })
 }
+
 function setConfig(config) {
   return db.put(CONFIG_KEY, JSON.stringify(config))
 }
+
+// async function saveCbsEnquiryInfo(info) {
+//   return await db.put()
+// }
+
 module.exports = {
   getConfig,
   setConfig,

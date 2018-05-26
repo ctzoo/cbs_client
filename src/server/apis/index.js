@@ -50,8 +50,8 @@ router.post('/token', async (req, res, next) => {
   try {
     const user = req.body
     const suser = await userDb.get(user.username)
-    if (suser.password === user.password) {
-      res.json({ token: jwt.sign({ userId: user.username }, 'cuitao_secret') })
+    if (suser && suser.password === user.password) {
+      res.json({ token: jwt.sign({ userId: user.username, isAdmin: user.username === 'admin' }, 'cuitao_secret') })
     } else {
       res.status(401).send('Username or Passwrod Error!')
     }
@@ -80,8 +80,14 @@ userRouter
   })
   .post((req, res, next) => {
     userDb
-      .put({ username: req.body.username, password: req.body.password })
-      .then(() => res.sendStatus(200))
+      .get(req.body.username)
+      .then(u => {
+        if (u == null) {
+          userDb.put({ username: req.body.username, password: req.body.password }).then(() => res.sendStatus(200))
+        } else {
+          res.sendStatus(403)
+        }
+      })
       .catch(next)
   })
 

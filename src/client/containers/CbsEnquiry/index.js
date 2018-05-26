@@ -145,7 +145,7 @@ export default class CbsEnquiry extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <div className="custom-file">
           <input type="file" className="custom-file-input" onChange={this.onFileChange} disabled={this.state.inputDisabled} />
           <label className="custom-file-label">{this.state.filePath}</label>
