@@ -5,6 +5,10 @@ const validate = require('./inputValidation')
 const xlsx = require('node-xlsx').default
 const pkg = require('./pkg')
 const unpkg = require('./unpkg')
+const {
+  saveCbsEnquiryInfo,
+  getCbsEnquiryInfo
+} = require('../storages/CBS')
 
 const {
   ERROR,
@@ -34,7 +38,7 @@ const inputFieldNames = [
   'postalCode',
 ]
 const makeReqData = xlsxRow => inputFieldNames.reduce((s, e, i) => ((s[e] = xlsxRow[i]), s), {})
-module.exports = async function(reqData /* request byte data */, ad /* action dispach */, send) {
+module.exports = async function (reqData /* request byte data */ , ad /* action dispach */ , send) {
   const worksheets = xlsx.parse(reqData)
   const err = validate(worksheets)
 
@@ -47,26 +51,47 @@ module.exports = async function(reqData /* request byte data */, ad /* action di
 
   const pkgs = pkg(worksheets)
 
-  const ret = { htmls: [] }
+  const ret = {
+    htmls: []
+  }
   let allResData = []
   const errs = []
 
   for (let j = 0; j < pkgs.length; j++) {
-    ad(BEGIN_PROC_WORKSHEET, { name: pkgs[j][0], count: pkgs[j][1].length })
+    ad(BEGIN_PROC_WORKSHEET, {
+      name: pkgs[j][0],
+      count: pkgs[j][1].length
+    })
     for (let i = 0; i < pkgs[j][1].length; i++) {
-      const res = await send(pkgs[j][1][i])
+      const r = pkgs[j][1][i]
+      const res = await getCbsEnquiryInfo(r.name, r.data) || await send(r.data)
       const reqData = makeReqData(worksheets[j].data[i])
-      const resData = unpkg(res)
+      const resData = typeof res === 'string' ? unpkg(res) : res.res
       if (resData.isErr) {
-        errs.push({ req: pkgs[j][1][i], res: resData.res })
+        errs.push({
+          req: pkgs[j][1][i].data,
+          res: resData.res
+        })
       } else {
+        if (typeof res === 'string')
+          await saveCbsEnquiryInfo({
+            name: r.name,
+            req: r.data,
+            res: resData
+          })
         allResData = allResData.concat(resData.items)
         const htmls = gh(reqData, resData.items)
         ret.htmls = ret.htmls.concat(htmls)
       }
-      ad(ONE_RECORD_COMPLETED, { name: pkgs[j][0], count: pkgs[j][1].length, completedCount: i + 1 })
+      ad(ONE_RECORD_COMPLETED, {
+        name: pkgs[j][0],
+        count: pkgs[j][1].length,
+        completedCount: i + 1
+      })
     }
-    ad(WORKSHEET_COMPLETED, { name: pkgs[j][0] })
+    ad(WORKSHEET_COMPLETED, {
+      name: pkgs[j][0]
+    })
   }
 
   ret.txts = gt(allResData)
