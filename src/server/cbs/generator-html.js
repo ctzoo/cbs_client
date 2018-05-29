@@ -128,6 +128,7 @@ const getPD = personal => {
       )
     )
     .join(pad)
+    // TODO 样式有问题
   const c = `<table cellspacing="0" class="table"><tbody>${[p1, p2, p3, p4].join('<tr><td></td><td></td></tr>')}</tbody></table>`
   return `<div class="table-half placeholder-half"><div><h6 class="h6-marginB">Personal Details</h6>${c}</div></div>`
 }
@@ -204,13 +205,13 @@ const getDr = drs =>
 
 const getTableHead = fields => `<thead><tr>${fields.map(f => `<th>${nd[f]}</th>`).join('')}</tr></thead>`
 
-const getBp = bps => {
-  const fields = ['bankruptcyNumber', 'orderDate', 'petitionDate', 'originalOrderDate', 'gazetteDate']
-  const head = getTableHead(fields)
-  const row = r => `<tr>${fields.map(f => `<td>${r[f]}</td>`).join('')}</tr><tr><td colspan="${fields.length}">${r.orderNature}</tr></tr>`
-  const body = `<tbody>${bps.map(row).join('')}</tbody>`
-  return `<h6>Bankruptcy Proceedings</h6><table cellspacing="0" class="table table-five paddingT-td">${head + body}</table>`
-}
+const getBp = bps =>
+  getTable(
+    'Bankruptcy Proceedings',
+    [nd.bankruptcyNumber, nd.orderDate, nd.petitionDate, nd.originalOrderDate, nd.gazetteDate],
+    bps.map(dr => [dr.bankruptcyNumber, dr.orderDate, dr.petitionDate, dr.originalOrderDate, dr.gazetteDate]),
+    'table table-senven paddingT-td'
+  )
 
 const getDrs = rs =>
   getTable(
@@ -279,6 +280,7 @@ const getLbs = rs => {
   const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }], 'line-text lineW')
   const lwAndBpKv = r => r.litigationWrits.map(getLbsTable).join('') + r.bankruptcyPetitions.map(getLbsTable).join('')
   const reports = rs.lisReports.map(r => `<P class="none-marginB">Subject</P>${subjectKv(r)}<br />${lwAndBpKv(r)}`).join('')
+  // TODO 需要列表
   return `<h6 class="h6-marginB">Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
 }
 
