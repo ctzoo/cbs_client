@@ -94,7 +94,6 @@ const getSummary = summary => {
 
 const getPS = (dataProvided, summary) => `<div>${getDataProvided(dataProvided)}${getSummary(summary)}</div>`
 const getPD = personal => {
-  const pad = '<tr><td></td><td></td></tr>'
   const p1 = kvTempG(
     personal,
     (n, v) => {
@@ -118,19 +117,13 @@ const getPD = personal => {
   )
 
   const p4 = personal.addresses
-    .map((addr, i) =>
-      kvTempG(
-        addr,
-        (n, v) => {
-          return `<tr><td>${n + ' ' + (i + 1)}</td><td>${v}</td></tr>`
-        },
-        ['postalCode', 'dateLoaded']
-      )
-    )
-    .join(pad)
-    // TODO 样式有问题
-  const c = `<table cellspacing="0" class="table"><tbody>${[p1, p2, p3, p4].join('<tr><td></td><td></td></tr>')}</tbody></table>`
-  return `<div class="table-half placeholder-half"><div><h6 class="h6-marginB">Personal Details</h6>${c}</div></div>`
+    .map((addr, i) => `<tr><td>${(i + 1) + ')  ' + addr.postalCode}</td><td>${addr.dateLoaded}</td></tr>`)
+    .join('')
+
+  const ctb = `<tbody>${p1}</tbody><tbody class="position-right-up">${p2}</tbody><tbody class="position-right-down">${p3}</tbody>`
+  const c = `<table cellspacing="0" class="table Line-height-max">${ctb}</table>`
+  const pc = `<p class="cycle-table-title"><b>Postal Code</b></p><table cellspacing="0" class="cycle-table"><tbody>${p4}</tbody></table>`
+  return `<div class="table-half placeholder-half"><div><h6 class="h6-marginB">Personal Details</h6>${c}${pc}</div></div>`
 }
 
 const getAI = ais => `<h6>Additional Identification</h6><table cellspacing="0" class="table table-three">
@@ -221,20 +214,16 @@ const getDrs = rs =>
     'table table-five paiingT-td paging-max'
   )
 
-const kvFormat1 = (vars, classes = 'Aline') =>
-  vars
-    .map(kv => {
-      return kv.name == '' ? '' : `<div class="${classes}"><div>${kv.name}</div><div>${kv.value}</div></div>`
-    })
-    .join('')
-const getBs = rs =>
-  rs.source &&
-  `
+const kvTable = (vars, classes = 'table') =>
+  `<table cellspacing="0" class="${classes}">
+    <tbody>${vars.map(kv => `<tr><td class="no-border-right">${kv.name}</td><td>${kv.value}</td></tr>`).join('')}</tbody>
+  </table>`
+
+const getBs = rs => rs.source && `
 <h6>Bureau Score</h6>
-<p>${rs.source.headerText}</p>
-${kvFormat1(rs.source.vars)}
-<br />
-`
+ <p>${rs.source.headerText}</p>
+ ${kvTable(rs.source.vars, 'table Bureau-table')}
+<br />`
 
 const getNa = na => `<p class="none-marginB">${na}</p>`
 
@@ -269,18 +258,27 @@ const getLbsTable = data => {
     'claimAmount',
     'plaintiffNames',
   ]
-  const head = `<thead><tr><th>${nd.dateLoaded}</th><th>${data.dateLoaded}</th></tr></thead>`
 
-  const mkr = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`
-  return `<table cellspacing="0" class="table none-paddingB-th paddingT-th">${head + fields.map(f => mkr(nd[f], data[f])).join('')}</table>`
+  const head = `<div><span class="Subject-left Subject-marginB">${nd.dateLoaded}</span>` +
+    `<span class="Subject-right Subject-marginB">${data.dateLoaded}</span></div>`
+
+  const mkr = (k, v) => `<div><span class="Subject-left">${k}</span><span class="Subject-right">${v}</span></div>`
+  return `<div class="Subject-content-box">${head + fields.map(f => mkr(nd[f], data[f])).join('')}</div>`
 }
+
+const kvFormat1 = (vars, classes = 'Aline') =>
+  vars
+    .map(kv => {
+      return kv.name == '' ? '' : `<div class="${classes}"><div>${kv.name}</div><div>${kv.value}</div></div>`
+    })
+    .join('')
 
 const getLbs = rs => {
   const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
-  const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }], 'line-text lineW')
-  const lwAndBpKv = r => r.litigationWrits.map(getLbsTable).join('') + r.bankruptcyPetitions.map(getLbsTable).join('')
-  const reports = rs.lisReports.map(r => `<P class="none-marginB">Subject</P>${subjectKv(r)}<br />${lwAndBpKv(r)}`).join('')
-  // TODO 需要列表
+  const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])
+  const lwKv = r => `<P class="none-marginB Subject-title">Litigation Writs</P>${r.litigationWrits.map(getLbsTable).join('')}<br/>`
+  const bpKv = r => `<P class="none-marginB Subject-title">Bankruptcy Petitions</P>${r.bankruptcyPetitions.map(getLbsTable).join('')}<br/>`
+  const reports = rs.lisReports.map(r => `<P class="none-marginB Subject-content">Subject</P>${subjectKv(r)}<br />${lwKv(r)}${bpKv(r)}`).join('')
   return `<h6 class="h6-marginB">Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
 }
 

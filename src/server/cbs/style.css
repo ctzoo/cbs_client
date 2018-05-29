@@ -1,8 +1,24 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 6.5pt;
-    font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+    font-size: 5pt;
+    font-family: "Verdana", "Verdana Regular";
+}
+
+.font {
+    font-family: "Verdana", "Verdana Regular";
+}
+
+.font-B {
+    font-weight: 600 !important;
+}
+
+thead {
+    display: table-header-group !important;
+}
+
+tr {
+    page-break-inside: avoid !important;
 }
 
 /*页面内容初始化*/
@@ -13,18 +29,27 @@ body {
 }
 
 /*字体*/
-.table, .table tr th, table tr td {
-    font-size: 6.5pt;
+.table tr th {
+    font-size: 5pt;
 }
+
+.table tr td {
+    font-size: 5pt;
+}
+
 .font-italic {
     font-style: italic;
     margin-left: 9px;
 }
+
 /*行高*/
 .table tr {
-    line-height: 11px;
+    line-height: 8px;
 }
 
+.Line-height-max tr {
+    line-height: 11px;
+}
 
 /*文字居左边*/
 .text-left {
@@ -43,11 +68,6 @@ body {
 }
 
 /*下边距 大 不常用*/
-.paging-max {
-    margin-bottom: 120px !important;
-}
-
-/*下边距 大 不常用*/
 .margin-max {
     margin-top: 120px !important;
 }
@@ -63,13 +83,15 @@ body {
 }
 
 /*无下边距 内*/
-.none-paddingB-th tr th  {
+.none-paddingB-th tr th {
     padding-bottom: 0 !important;
 }
+
 /*上边距边距 内*/
 .paddingT-th tr th {
     padding-top: 10px !important;
 }
+
 /*无边距 外*/
 .none-margin {
     margin: 0 !important;
@@ -97,9 +119,6 @@ body {
     margin-bottom: 0 !important;
 }
 
-.paddingT-td tr td {
-    padding-top: 10px;
-}
 /*上边距设置 大*/
 .marginMax {
     margin-top: 22px;
@@ -117,6 +136,10 @@ body {
     margin-bottom: 10px;
 }
 
+.marginT-H {
+    height: 32px;
+}
+
 /*每行设置下边距*/
 .all-padding-td tr td {
     padding-top: 10px;
@@ -126,12 +149,13 @@ body {
 h6 {
     float: left;
     width: 98.5%;
-    font-size: 7.5pt;
-    font-weight: 900;
-    margin: 1.2em 8px 0 8px !important;
+    font-size: 6.5pt;
+    font-weight: 700;
+    margin: 1.2em 8px 2px 4px !important;
 }
+
 .h6-marginB {
-    margin-bottom: 1.2em !important;
+    margin-bottom: 0.6em !important;
 }
 
 /*p标签初始化*/
@@ -139,7 +163,7 @@ p {
     float: left;
     width: 98%;
     text-align: left;
-    margin: 14px 8px !important;
+    margin: 8px !important;
 }
 
 /*修改p标题上下边距*/
@@ -157,48 +181,6 @@ p {
     width: 160px;
 }
 
-/*上下边线添加*/
-.borderTB, .borderTB-th {
-    border-top: 1px dotted;
-    border-bottom: 1px dotted;
-    padding-bottom: 0 !important;
-}
-
-/*上边线添加*/
-.borderT {
-    border-top: 1px dotted;
-}
-
-
-/*下边线添加*/
-.borderB {
-    border-bottom: 1px dotted;
-}
-
-/*表头上下边线*/
-.borderTB-th tr th {
-    border-top: 1px dotted;
-    border-bottom: 1px dotted;
-    padding-bottom: 0 !important;
-}
-
-/*表头下边线设置*/
-.borderB-th tr th {
-    border-bottom: 1px dotted;
-    padding-bottom: 0 !important;
-}
-
-/*第一列右边框设置*/
-.borderR {
-    text-align: left !important;
-    border-right: 1px dotted;
-}
-
-/*去掉上边线*/
-.none-borderT {
-    border-top: none;
-}
-
 /*表格*/
 .table {
     float: left;
@@ -209,6 +191,8 @@ p {
 
 .table tr th {
     padding-bottom: 10px;
+    font-weight: 700;
+    margin-bottom: 12px;
 }
 
 /*一行2列表格*/
@@ -219,6 +203,7 @@ p {
 
 .table-half tr td {
     width: 50%;
+    font-weight: 300;
 }
 
 /*一行3列表格//每行3列时候加一个空的th和td标签//*/
@@ -248,10 +233,86 @@ p {
     width: 14%;
 }
 
-/*end 文字设置*/
-.text-end {
-    text-align: center;
-    border-top: 1px solid;
+/*-------------------Bureau---------------------*/
+.Bureau-table {
+    width: 80%;
+    margin-left: 10%;
     border-bottom: 1px solid;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
+.Bureau-table td {
+    border: 1px solid;
+    border-bottom: none;
+    padding-left: 4px;
+}
+
+.no-border-right {
+    border-right: none !important;
+}
+
+/*-------------------Subject----------------------*/
+.Subject-content {
+    margin-left: 5px !important;
+    font-weight: 600;
+    padding-bottom: 2px;
+}
+
+.Subject-title {
+    font-weight: 600;
+    padding-left: 6px;
+}
+
+.Subject-content-box {
+    float: left;
+    width: 95%;
+    margin-left: 5%;
+}
+
+.Subject-marginB {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.Subject-left, .Subject-right {
+    float: left;
+    width: 20%;
+}
+
+.Subject-right {
+    width: 80% !important;
+}
+
+/*-------------------Personal Details----------------------*/
+.position-right-up {
+    position: absolute;
+    width: 160px;
+    right: 20px;
+    margin-top: -67px;
+}
+
+.position-right-down {
+    position: absolute;
+    width: 160px;
+    right: 20px;
+    margin-top: -38px;
+}
+
+.cycle-table {
+    float: left;
+    width: 180px;
+    margin-left: 70px;
+    margin-top: 2px;
+
+}
+
+.cycle-table-title {
+    position: absolute;
+    left: 6px;
+    padding-top: 88px;
+}
+
+.max-width-th {
+    width: 50% !important;
+}
