@@ -34,7 +34,7 @@ function* loginSaga() {
     if (err) {
       yield put(actions.loginErr(err))
     } else {
-      yield call(() => window.localStorage.setItem('token', token))
+      // yield call(() => window.localStorage.setItem('token', token))
       yield call(() => (axios.defaults.headers.common['Authorization'] = 'Bearer ' + token))
       yield put(actions.loginRes(token))
     }
