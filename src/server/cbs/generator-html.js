@@ -4,7 +4,7 @@ const fs = require('fs')
 // const cssBuf = fs.readFileSync(path.join(__dirname, 'bootstrap.min.css'))
 const cssBuf = fs.readFileSync(path.join(__dirname, 'style.css'))
 
-const template = container =>
+const template = (head, container) =>
   `<!DOCTYPE html>
 <html lang="en">
 
@@ -15,11 +15,11 @@ const template = container =>
   <title>Credit Bureau (Singapore) Pet Ltd</title>
   <style type="text/css">{css-style}</style>
 </head>
-
 <body>
-  <div class="container">
-    <h6 class="h6-marginB">Credit Bureau (Singapore) Pet Ltd</h6>
-    <div class="font-italic">A subsidiary of Infocredit Holdings</div>
+  <div id="pageHeader">
+    ${head}
+  </div>
+  <div class="container" id="pageContent">
     ${container}
   </div>
 </body>
@@ -30,15 +30,15 @@ const template = container =>
 const enquiryDate = '17/05/2018'
 
 const getHead = (enquiryNo, enquiryDate, Reference) => `
-<table class="table">
-<tbody>
-  <tr>
-    <td>Enquiry No.:${enquiryNo}</td>
-    <td>Client Ref.:${Reference}</td>
-    <td>Report Date:${enquiryDate}</td>
-  </tr>
-</tbody>
-</table>
+<div style="text-align: left;  font-family: Verdana; font-size: 8.5pt;">
+  Gredit Bureau（Singapore）Pte Ltd<br/>
+  <i style="font-size: 5pt">A subdidiary Infocredit Holdings</i>
+  <div style="width: 100%; font-size: 6.5pt; padding-top: 6px">
+    <span style="display: inline-block; width: 33.3%">Enquiry No.:${enquiryNo}</span>
+    <span style="display: inline-block; width: 33.3%">Client Ref.:${Reference}</span>
+    <span style="display: inline-block; width: 33.3%">Report Date:${enquiryDate}</span>
+  </div>
+</div>
 `
 
 const getDataProvided = dataProvided => `
@@ -47,35 +47,35 @@ const getDataProvided = dataProvided => `
   <table cellspacing="0" class="table">
     <tbody>
       <tr>
-        <td>Name</td>
-        <td>${dataProvided.customerName}</td>
+        <td class="marginT font-B">Name</td>
+        <td class="marginT-H">${dataProvided.customerName}</td>
       </tr>
       <tr>
-        <td>ID Type</td>
+        <td class="font-B">ID Type</td>
         <td>${dataProvided.idType}</td>
       </tr>
       <tr>
-        <td>ID Number</td>
+        <td class="font-B">ID Number</td>
         <td>${dataProvided.idNumber}</td>
       </tr>
       <tr>
-        <td>Date of Birth</td>
+        <td class="font-B">Date of Birth</td>
         <td>${dataProvided.dateOfBirth}</td>
       </tr>
       <tr>
-        <td>Postal Code</td>
+        <td class="font-B">Postal Code</td>
         <td>${dataProvided.postalCode}</td>
       </tr>
       <tr>
-        <td>Enquiry Type</td>
+        <td class="font-B">Enquiry Type</td>
         <td>${dataProvided.enquiryType}</td>
       </tr>
       <tr>
-        <td>Product Type</td>
+        <td class="font-B">Product Type</td>
         <td>${dataProvided.productType}</td>
       </tr>
       <tr>
-        <td>Applicant Type</td>
+        <td class="font-B">Applicant Type</td>
         <td>${dataProvided.applicantType}</td>
       </tr>
     </tbody>
@@ -297,7 +297,6 @@ module.exports = (reqObj, resObj) =>
       return item.consumerInfos.map(consumer => {
         const head = getHead(enquiryInfo.enquiryNo, enquiryDate, enquiryInfo.enquiryRef)
         const content =
-          head +
           getPS(reqObj, consumer.summary) +
           getPD(consumer.personalDetails) +
           getAn(consumer.additionalNames) +
@@ -314,7 +313,7 @@ module.exports = (reqObj, resObj) =>
           getAI(consumer.additionalIdentifications) +
           getAgg(consumer.aggosbalances) +
           '<p class="text-center border border-dark">End Of Report</p>'
-        return [`${enquiryInfo.enquiryRef}_${consumer.personalDetails.idNumber}`, template(content)]
+        return [`${enquiryInfo.enquiryRef}_${consumer.personalDetails.idNumber}`, template(head, content)]
       })
     })
     .reduce((s, e) => s.concat(e), [])

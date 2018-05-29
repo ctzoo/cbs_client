@@ -3,13 +3,16 @@ const { ONE_PDF_COMPLETED, BEGIN_PROC_PDF } = require('../../consts')
 
 function myPdfTools(html) {
   return new Promise((resolve, reject) =>
-    pdf
-      .create(html, {
-        format: 'A4',
-        orientation: 'portrait',
-        margin: '1cm',
-      })
-      .toBuffer((err, buf) => (err ? reject(err) : resolve(buf)))
+    pdf.create(html, {
+      format: 'A4',
+      orientation: 'portrait',
+      border: {
+        top: '2.2cm',
+        bottom: '2.8cm',
+        left: '1.8cm',
+        right: '1.8cm'
+      }
+    }).toBuffer((err, buf) => (err ? reject(err) : resolve(buf)))
   )
 }
 
