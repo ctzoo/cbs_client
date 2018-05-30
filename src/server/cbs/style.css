@@ -2,15 +2,11 @@ body {
     margin: 0;
     padding: 0;
     font-size: 7pt;
-    letter-spacing: 0.5px;
-    word-spacing: 0.5px;
-    font-family: "Verdana", "Verdana Regular", "Helvetica" ;
+    font-family: "Helvetica","Verdana", "Verdana Regular" ;
 }
 
 .font {
-    letter-spacing: 0.5px;
-    word-spacing: 0.5px;
-    font-family: "Verdana", "Verdana Regular", "Helvetica" ;
+    font-family: "Helvetica", "Verdana", "Verdana Regular" ;
 }
 
 .font-B {
@@ -300,7 +296,7 @@ p {
     position: absolute;
     width: 190px;
     right: 40px;
-    margin-top: -36px;
+    margin-top: -28px;
 }
 
 .cycle-table {
