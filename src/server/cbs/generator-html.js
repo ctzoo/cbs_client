@@ -90,7 +90,7 @@ const kvTempG = (obj, cb, keys) =>
     return s + (e.startsWith('__') ? '' : cb(nd[e], obj[e], i))
   }, '')
 const getSummary = summary => {
-  const c = kvTempG(summary, (name, value) => `<tr><td>${name}</td><td class="text-right">${value}</td></tr>`)
+  const c = kvTempG(summary, (name, value) => `<tr><td class="font-B">${name}</td><td class="text-right">${value}</td></tr>`)
   return `<div class="table-half"><h6 class="h6-marginB">Summary</h6><table cellspacing="0" class="table"><tbody>${c}</tbody></table></div>`
 }
 
@@ -99,21 +99,21 @@ const getPD = personal => {
   const p1 = kvTempG(
     personal,
     (n, v) => {
-      return `<tr><td>${n}</td><td>${v}</td></tr>`
+      return `<tr><td class="font-B">${n}</td><td>${v}</td></tr>`
     },
     ['surname', 'firstName', 'secondName', 'foreNames', 'unformattedName']
   )
   const p2 = kvTempG(
     personal,
     (n, v) => {
-      return `<tr><td>${n}</td><td>${v}</td></tr>`
+      return `<tr><td class="font-B">${n}</td><td>${v}</td></tr>`
     },
     ['idType', 'idNumber']
   )
   const p3 = kvTempG(
     personal,
     (n, v) => {
-      return `<tr><td>${n}</td><td>${v}</td></tr>`
+      return `<tr><td class="font-B">${n}</td><td>${v}</td></tr>`
     },
     ['dateOfBirth', 'gender', 'nationality', 'maritalStatus']
   )
@@ -286,9 +286,9 @@ const kvFormat1 = (vars, classes = 'Aline') =>
 const getLbs = rs => {
   const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
   const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])
-  const lwKv = r => rs.litigationWrits === '0' ? 
+  const lwKv = r => rs.litigationWrits !== '0' ? 
     `<P class="none-marginB Subject-title">Litigation Writs</P>${r.litigationWrits.map(getLbsTable).join('')}<br/>` : ''
-  const bpKv = r => rs.bankruptcyPetitions === '0' ? 
+  const bpKv = r => rs.bankruptcyPetitions !== '0' ? 
     `<P class="none-marginB Subject-title">Bankruptcy Petitions</P>${r.bankruptcyPetitions.map(getLbsTable).join('')}<br/>` : ''
   const reports = rs.lisReports.map(r => `<P class="none-marginB Subject-content">Subject</P>${subjectKv(r)}<br />${lwKv(r)}${bpKv(r)}`).join('')
   return `<h6 class="h6-marginB">Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
@@ -324,7 +324,7 @@ module.exports = (reqObj, resObj) =>
           getLbs(consumer.lisRerports) +
           getAI(consumer.additionalIdentifications) +
           getAgg(consumer.aggosbalances) +
-          '<p class="text-center border border-dark">End Of Report</p>'
+          '<p class="text-center margin-max">End Of Report</p>'
         return [`${enquiryInfo.enquiryRef}_${consumer.personalDetails.idNumber}`, template(head, content)]
       })
     })
