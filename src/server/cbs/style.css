@@ -2,11 +2,14 @@ body {
     margin: 0;
     padding: 0;
     font-size: 7pt;
-    word-spacing: 1px;
+    letter-spacing: 0.5px;
+    word-spacing: 0.5px;
     font-family: "Verdana", "Verdana Regular", "Helvetica" ;
 }
 
 .font {
+    letter-spacing: 0.5px;
+    word-spacing: 0.5px;
     font-family: "Verdana", "Verdana Regular", "Helvetica" ;
 }
 
@@ -246,7 +249,7 @@ p {
 .Bureau-table td {
     border: 1px solid;
     border-bottom: none;
-    padding: 3px 0 3px 6px;
+    padding-left: 6px;
 }
 
 .no-border-right {
@@ -290,14 +293,14 @@ p {
     position: absolute;
     width: 190px;
     right: 40px;
-    margin-top: -67px;
+    margin-top: -52px;
 }
 
 .position-right-down {
     position: absolute;
     width: 190px;
     right: 40px;
-    margin-top: -12px;
+    margin-top: -36px;
 }
 
 .cycle-table {
