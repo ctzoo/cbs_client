@@ -36,9 +36,9 @@ const getHead = (enquiryNo, enquiryDate, Reference) => `
   Gredit Bureau（Singapore）Pte Ltd<br/>
   <i style="font-size: 5pt">A subdidiary Infocredit Holdings</i>
   <div style="width: 100%; font-size: 6.5pt; padding-top: 6px">
-    <span style="display: inline-block; width: 33.3%">Enquiry No.:${enquiryNo}</span>
-    <span style="display: inline-block; width: 33.3%">Client Ref.:${Reference}</span>
-    <span style="display: inline-block; width: 33.3%">Report Date:${enquiryDate}</span>
+    <span style="display: inline-block; width: 32%">Enquiry No.:${enquiryNo}</span>
+    <span style="display: inline-block; width: 32%">Client Ref.:${Reference}</span>
+    <span style="display: inline-block; width: 32%">Report Date:${enquiryDate}</span>
   </div>
 </div>
 `
