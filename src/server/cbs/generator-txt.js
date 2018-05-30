@@ -74,16 +74,16 @@ function generateConsumer(pkg) {
       as.push(item.enquiryInfo.enquiryRef) // 1
       as.push(consumer.__consumerSeq) // 2
       as.push(consumer.__applicantType) // 3
-      as.push(dic.getKey(consumer.personalDetails.idType, dic.idType)) // 4
+      as.push(consumer.personalDetails.idType) // 4
       as.push(consumer.personalDetails.idNumber) // 5
       as.push(consumer.personalDetails.surname) // 6
       as.push(consumer.personalDetails.firstName) // 7
       as.push(consumer.personalDetails.secondName) // 8
       as.push(consumer.personalDetails.foreNames) // 9
       as.push(consumer.personalDetails.unformattedName) // 10
-      as.push(dic.getKey(consumer.personalDetails.maritalStatus, dic.maritalStatus)) // 11
+      as.push(consumer.personalDetails.maritalStatus) // 11
       as.push(consumer.personalDetails.dateOfBirth.split('/').reduce((s, e) => s + e.padStart(2, '0'), '')) // 12
-      as.push(dic.getKey(consumer.personalDetails.gender, dic.gender)) // 13
+      as.push(consumer.personalDetails.gender) // 13
       as.push(consumer.personalDetails.nationality) // 14
       as.push(consumer.noAdverse) // 15
       as.push(consumer.summary.accounts) // 16
