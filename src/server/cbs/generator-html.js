@@ -128,34 +128,6 @@ const getPD = personal => {
   return `<div class="table-half placeholder-half"><div><h6 class="h6-marginB">Personal Details</h6>${c}${pc}</div></div>`
 }
 
-const getAI = ais => `<h6>Additional Identification</h6><table cellspacing="0" class="table table-three">
-  <thead><tr><th>${nd.dateLoaded}</th><th>${nd.idType}</th><th>${nd.idNumber}</th></tr></thead>
-  <tbody>${ais.map(ai => `<tr><td>${ai.dateLoaded}</td><td>${ai.idType}</td><td>${ai.idNumber}</td></tr>`).join('')}</tbody>
-</table>`
-
-const getAn = ans => `<h6>Additional Names</h6>
-<div class="table-half placeholder-half"><table class="table">
-<thead>
-  <tr>
-    <th>${nd.dateLoaded}</th>
-    <th>${nd.name}</th>
-  </tr>
-</thead>
-<tbody>${ans.map(an => `<tr><td>${an.dateLoaded}</td><td>${an.name}</td></tr>`).join('')}</tbody>
-</table></div>`
-
-const getEmp = emps => `<h6>Employment</h6>
-<table cellspacing="0" class="table table-three">
-<thead>
-  <tr>
-    <th>${nd.dateLoaded}</th>
-    <th>${nd.occupation}</th>
-    <th>${nd.employer}</th>
-  </tr>
-</thead>
-<tbody>${emps.map(o => `<tr><td>${o.dateLoaded}</td><td>${o.occupation}</td><td>${o.employer}</td></tr>`).join('')}</tbody>
-</table>`
-
 const getTable = (tn, cols, rows, tableclass = 'table') =>
   `<h6>${tn}</h6>${
     rows.length === 0
@@ -165,6 +137,41 @@ const getTable = (tn, cols, rows, tableclass = 'table') =>
 <tbody>${rows.map(r => '<tr>' + r.map(d => `<td>${d}</td>`).join('') + '</tr>').join('')}</tbody>
 </table>`
   }`
+
+const getAI = ais => 
+  getTable(
+    'Additional Identification',
+    [nd.dateLoaded, nd.idType, nd.idNumber],
+    ais.map(ai => [
+      ai.dateLoaded,
+      ai.idType,
+      ai.idNumber
+    ]),
+    'table table-three'
+  )
+
+const getAn = ans => 
+  getTable(
+    'Additional Names',
+    [nd.dateLoaded, nd.name],
+    ans.map(an => [
+      an.dateLoaded,
+      an.name,
+    ]),
+    'table table-six paddingT-td'
+  )
+
+const getEmp = emps => 
+  getTable(
+    'Additional Names',
+    [nd.dateLoaded, nd.occupation, nd.employer],
+    emps.map(o => [
+      o.dateLoaded,
+      o.occupation,
+      o.employer,
+    ]),
+    'table table-three'
+  )
 
 const getAsH = hises =>
   getTable(
@@ -279,9 +286,9 @@ const kvFormat1 = (vars, classes = 'Aline') =>
 const getLbs = rs => {
   const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
   const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])
-  const lwKv = r => rs.litigationWrits ? 
+  const lwKv = r => rs.litigationWrits === '0' ? 
     `<P class="none-marginB Subject-title">Litigation Writs</P>${r.litigationWrits.map(getLbsTable).join('')}<br/>` : ''
-  const bpKv = r => rs.bankruptcyPetitions ? 
+  const bpKv = r => rs.bankruptcyPetitions === '0' ? 
     `<P class="none-marginB Subject-title">Bankruptcy Petitions</P>${r.bankruptcyPetitions.map(getLbsTable).join('')}<br/>` : ''
   const reports = rs.lisReports.map(r => `<P class="none-marginB Subject-content">Subject</P>${subjectKv(r)}<br />${lwKv(r)}${bpKv(r)}`).join('')
   return `<h6 class="h6-marginB">Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
