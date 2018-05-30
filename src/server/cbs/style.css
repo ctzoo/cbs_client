@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-size: 7.5pt;
+    font-size: 6.5pt;
     font-family: "Verdana", "Verdana Regular", "Helvetica" ;
 }
 
@@ -30,11 +30,11 @@ tr {
 
 /*字体*/
 .table tr th {
-    font-size: 7.5pt;
+    font-size: 6.5pt;
 }
 
 .table tr td {
-    font-size: 7.5pt;
+    font-size: 6.5pt;
 }
 
 .font-italic {
@@ -44,11 +44,11 @@ tr {
 
 /*行高*/
 .table tr {
-    line-height: 11px;
+    line-height: 10px;
 }
 
 .Line-height-max tr {
-    line-height: 13px;
+    line-height: 12px;
 }
 
 /*文字居左边*/
@@ -149,7 +149,7 @@ tr {
 h6 {
     float: left;
     width: 98.5%;
-    font-size: 9pt;
+    font-size: 7.5pt;
     font-weight: 700;
     margin: 1.2em 8px 2px 4px !important;
 }
@@ -245,7 +245,7 @@ p {
 .Bureau-table td {
     border: 1px solid;
     border-bottom: none;
-    padding: 4px 0 4px 4px;
+    padding: 6px 0 4px 4px;
 }
 
 .no-border-right {
@@ -310,7 +310,7 @@ p {
 .cycle-table-title {
     position: absolute;
     left: 6px;
-    padding-top: 118px;
+    padding-top: 103px;
 }
 
 .max-width-th {
