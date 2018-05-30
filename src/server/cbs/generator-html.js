@@ -272,7 +272,7 @@ const getLbsTable = data => {
   const head = `<div><span class="Subject-left Subject-marginB">${nd.dateLoaded}</span>` +
     `<span class="Subject-right Subject-marginB">${data.dateLoaded}</span></div>`
 
-  const mkr = (k, v) => `<div><span class="Subject-left">${k}</span><span class="Subject-right">${v}</span></div>`
+  const mkr = (k, v) => `<div><span class="Subject-left">${k}</span><span class="Subject-right">${v || '-'}</span></div>`
   return `<div class="Subject-content-box">${head + fields.map(f => mkr(nd[f], data[f])).join('')}</div>`
 }
 
