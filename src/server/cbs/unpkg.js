@@ -315,7 +315,12 @@ const getLisReports = consumer => {
         dateFiled: ['LW_FILE_DATE/LW_FILE_DAY', 'LW_FILE_DATE/LW_FILE_MONTH', 'LW_FILE_DATE/LW_FILE_YEAR', formatDate],
         natureOfClaim: 'LW_NATURE_OF_CLAIM',
         status: 'LW_STATUS',
-        statusDate: ['LW_STATUS_DATE/LW_STATUS_DAY', 'LW_STATUS_DATE/LW_STATUS_MONTH', 'LW_STATUS_DATE/LW_STATUS_YEAR', formatDate],
+        statusDate: [
+          'LW_STATUS_DATE/LW_STATUS_DAY',
+          'LW_STATUS_DATE/LW_STATUS_MONTH',
+          'LW_STATUS_DATE/LW_STATUS_YEAR',
+          as => (as[0] == '' ? '-' : as.join('/')),
+        ],
         claimCurrency: 'LW_CLAIM_CURR1',
         claimAmount: 'LW_CLAIM_AMT1',
         plaintiffNames: {
