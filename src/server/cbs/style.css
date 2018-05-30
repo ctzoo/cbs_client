@@ -287,16 +287,16 @@ p {
 /*-------------------Personal Details----------------------*/
 .position-right-up {
     position: absolute;
-    width: 160px;
-    right: 20px;
+    width: 190px;
+    right: 40px;
     margin-top: -67px;
 }
 
 .position-right-down {
     position: absolute;
-    width: 160px;
-    right: 20px;
-    margin-top: -18px;
+    width: 190px;
+    right: 40px;
+    margin-top: -28px;
 }
 
 .cycle-table {
