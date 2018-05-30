@@ -13,9 +13,9 @@ const template = (head, container) =>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Credit Bureau (Singapore) Pet Ltd</title>
+  <style type="text/css">{css-style}</style>
 </head>
 <body>
-  <style type="text/css">{css-style}</style>
   <div id="pageHeader">
     ${head}
   </div>
@@ -27,7 +27,9 @@ const template = (head, container) =>
 </html>
 `.replace('{css-style}', cssBuf)
 
-const enquiryDate = '17/05/2018'
+const time = new Date()
+const month = time.getMonth() + 1
+const enquiryDate = time.getFullYear() + '-' + month + '-' + time.getDate()
 
 const getHead = (enquiryNo, enquiryDate, Reference) => `
 <div style="text-align: left;  font-family: Verdana; font-size: 8.5pt;">
@@ -233,7 +235,8 @@ const getNar = ns => {
   const coverNs = ns.map(n => [n.dateLoaded, n.typeCode, n.texts.join('')])
   const row = r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`
   const body = coverNs.map(row)
-  return `<h6 class="h6-marginB">Narratives</h6><table class="table table-three">${head + body}</table>`
+  const table = ns.length === 0 ? '<p>Empty</p>' : `<table class="table table-three">${head + body}</table>`
+  return `<h6 class="h6-marginB">Narratives</h6>${table}`
 }
 // const getNar = ns => `<h6>Narratives</h6>
 // <table class="table">
@@ -276,8 +279,10 @@ const kvFormat1 = (vars, classes = 'Aline') =>
 const getLbs = rs => {
   const lbCount = kvFormat1([{ name: nd.litigationWrits, value: rs.litigationWrits }, { name: nd.bankruptcyPetitions, value: rs.bankruptcyPetitions }])
   const subjectKv = r => kvFormat1([{ name: nd.idType, value: r.idType }, { name: nd.idNumber, value: r.idNumber }])
-  const lwKv = r => `<P class="none-marginB Subject-title">Litigation Writs</P>${r.litigationWrits.map(getLbsTable).join('')}<br/>`
-  const bpKv = r => `<P class="none-marginB Subject-title">Bankruptcy Petitions</P>${r.bankruptcyPetitions.map(getLbsTable).join('')}<br/>`
+  const lwKv = r => rs.litigationWrits ? 
+    `<P class="none-marginB Subject-title">Litigation Writs</P>${r.litigationWrits.map(getLbsTable).join('')}<br/>` : ''
+  const bpKv = r => rs.bankruptcyPetitions ? 
+    `<P class="none-marginB Subject-title">Bankruptcy Petitions</P>${r.bankruptcyPetitions.map(getLbsTable).join('')}<br/>` : ''
   const reports = rs.lisReports.map(r => `<P class="none-marginB Subject-content">Subject</P>${subjectKv(r)}<br />${lwKv(r)}${bpKv(r)}`).join('')
   return `<h6 class="h6-marginB">Litigation Writ and Bankruptcy Petition Search</h6>${lbCount}<br />${reports}<br />`
 }
