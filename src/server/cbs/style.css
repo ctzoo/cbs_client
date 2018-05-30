@@ -61,7 +61,7 @@ tr {
 
 /*行高*/
 .table tr {
-    line-height: 10px;
+    line-height: 11px;
 }
 
 .Line-height-max tr {
@@ -262,7 +262,7 @@ p {
 .Bureau-table td {
     border: 1px solid;
     border-bottom: none;
-    padding-left: 4px;
+    padding: 4px 0 4px 4px;
 }
 
 .no-border-right {
@@ -313,7 +313,7 @@ p {
     position: absolute;
     width: 160px;
     right: 20px;
-    margin-top: -38px;
+    margin-top: -18px;
 }
 
 .cycle-table {
