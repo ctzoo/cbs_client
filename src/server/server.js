@@ -7,8 +7,7 @@ const cbs = require('./cbs')
 const cbsFetch = require('./cbs-fetch')
 const AdmZip = require('adm-zip')
 const path = require('path')
-// TODO:
-// const socketIoJwt = require('socketio-jwt')
+const socketIoJwt = require('socketio-jwt')
 const bodyParser = require('body-parser')
 const apiRouter = require('./apis')
 const logger = require('./logger')('server')
@@ -41,6 +40,10 @@ app.use(express.static(staticFileDir))
 // app.use('/*', (req, res) => {
 //   res.sendfile(path.join(staticFileDir, 'index.html'))
 // })
+io.of('cbs_enquiry').use(socketIoJwt.authorize({
+  secret: 'cuitao_secret',
+  handshake: true
+}))
 io.of('cbs_enquiry').on('connection', socket => {
   // TODO:
   // eslint-disable-next-line
