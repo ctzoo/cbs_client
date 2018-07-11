@@ -316,3 +316,13 @@ p {
 .max-width-th {
     width: 50% !important;
 }
+
+/*一行7列表格 最后一列宽度单独设置*/
+.across-column tr th,
+.across-column tr td {
+   width: 12% !important;
+}
+.across-column tr th:nth-last-child(1),
+.across-column tr td:nth-last-child(1) {
+   width: 28% !important;
+}

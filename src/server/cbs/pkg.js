@@ -17,6 +17,9 @@ const xlsxFieldNames = [
   'addressType',
   'addressFormat',
   'postalCode',
+  'streetName',
+  'stateCityName',
+  'countryCode'
 ]
 
 const reqXml = `<?xml version="1.0" encoding="utf-8"?>
@@ -27,7 +30,7 @@ const reqXml = `<?xml version="1.0" encoding="utf-8"?>
     <HEADER>
       <CLIENT_ID>{clientId}</CLIENT_ID>
       <USER_ID>{userId}</USER_ID>
-      <VERSION_NO>2.0</VERSION_NO>
+      <VERSION_NO>3.0</VERSION_NO>
       <RUN_NO>{runNo}</RUN_NO>
       <TOT_ITEMS>1</TOT_ITEMS>
     </HEADER>
@@ -59,6 +62,9 @@ const reqXml = `<?xml version="1.0" encoding="utf-8"?>
             <CADF>{addressFormat}</CADF>
             <CADT>{addressType}</CADT>
             <CAD7>{postalCode}</CAD7>
+            <CAD4>{streetName}</CAD4>
+            <CAD8>{stateCityName}</CAD8>
+            <CAD9>{countryCode}</CAD9>
           </CADR>
           <CMAR>{maritalStatus}</CMAR>
         </CONSUMER>

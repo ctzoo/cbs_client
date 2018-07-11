@@ -186,7 +186,7 @@ const getAsH = hises =>
       his.overdueBalance,
       his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
     ]),
-    'table table-six paddingT-td'
+    'table table-senven across-column paddingT-td'
   )
 
 const getPe = pes =>
@@ -299,7 +299,15 @@ const getAgg = aggs =>
     'Aggregated Outstanding Balances',
     ['Date', nd.securedBalances, nd.unsecuredInterestBearingBalances, nd.unsecuredNonInterestBearingBalances, nd.exemptedBalances],
     aggs.map(agg => [agg.osbDate, agg.securedBalances, agg.unsecuredInterestBearingBalances, agg.unsecuredNonInterestBearingBalances, agg.exemptedBalances]),
-    'table table-five text-center paddingT-td'
+    'table table-five paddingT-td'
+  )
+
+const getMib = mibs =>
+  getTable(
+    'Aggregated Monthly Installments',
+    ['Date', nd.propJntMib, nd.propSgleMib, nd.nonPropSecJntMib, nd.nonPropSecSgleMib, nd.unsecuredMib, nd.exemptedUnsecMib],
+    mibs.map(mib => [mib.mibDate, mib.propJntMib, mib.propSgleMib, mib.nonPropSecJntMib, mib.nonPropSecSgleMib, mib.unsecuredMib, mib.exemptedUnsecMib]),
+    'table table-five paddingT-td'
   )
 
 module.exports = (reqObj, resObj) =>
@@ -324,6 +332,7 @@ module.exports = (reqObj, resObj) =>
           getLbs(consumer.lisRerports) +
           getAI(consumer.additionalIdentifications) +
           getAgg(consumer.aggosbalances) +
+          getMib(consumer.mibalances) +
           '<p class="text-center margin-max">End Of Report</p>'
         return [`${enquiryInfo.enquiryRef}_${consumer.personalDetails.idNumber}`, template(head, content)]
       })

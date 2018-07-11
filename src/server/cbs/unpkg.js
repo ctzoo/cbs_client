@@ -378,6 +378,21 @@ const getAggosbalances = consumer => {
   return getObjectText(fields, consumer)
 }
 
+const getMibalances = consumer => {
+  const fields = {
+    _path: 'MIBALANCES/AGGREGATE_MIB_BAL',
+    _as: true,
+    mibDate: ['MIB_MONTH', 'MIB_YEAR', formatDate],
+    propJntMib: ['PROP_JNT_MIB', as => as[0] || 'N/A'],
+    propSgleMib: ['PROP_SGLE_MIB', as => as[0] || 'N/A'],
+    nonPropSecJntMib: ['NON_PROP_SEC_JNT_MIB', as => as[0] || 'N/A'],
+    nonPropSecSgleMib: ['NON_PROP_SEC_SGLE_MIB', as => as[0] || 'N/A'],
+    unsecuredMib: ['UNSECURED_MIB', as => as[0] || 'N/A'],
+    exemptedUnsecMib: ['EXEMPTED_UNSEC_MIB', as => as[0] || 'N/A']
+  }
+  return getObjectText(fields, consumer)
+}
+
 module.exports = data => {
   const doc = new DOMParser().parseFromString(data)
   const state = xpath.select1('/RESPONSE/STATUS', doc).textContent.trim()
@@ -406,6 +421,7 @@ module.exports = data => {
             narratives: getNarratives(consumer),
             lisRerports: getLisReports(consumer),
             aggosbalances: getAggosbalances(consumer),
+            mibalances: getMibalances(consumer),
           })),
           disclaimer: getText('DISCLAIMER', report),
         }

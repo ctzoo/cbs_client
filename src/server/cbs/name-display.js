@@ -84,4 +84,10 @@ module.exports = {
   clientId: 'Client Id',
   userId: 'User Id',
   runNo: 'Run No',
+  propJntMib: 'Property Joint',
+  propSgleMib: 'Property Single',
+  nonPropSecJntMib: 'Non-Property Secured Joint',
+  nonPropSecSgleMib: 'Non-Property Secured Single',
+  unsecuredMib: 'Unsecured',
+  exemptedUnsecMib: 'Exempted',
 }
