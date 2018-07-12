@@ -86,7 +86,7 @@ function makeRowPkg(row) {
 
 function makeWorksheetPkg(worksheet) {
   // console.log(worksheet.name, worksheet.data.reduce)
-  return [worksheet.name, worksheet.data.reduce((s, e) => (e.length === 0 ? s : [...s, {name: e[2], data: makeRowPkg(e)}]), [])]
+  return [worksheet.name, worksheet.data.reduce((s, e) => (e.length === 0 ? s : [...s, { name: e[2], data: makeRowPkg(e) }]), [])]
 }
 
 // module.exports = {
