@@ -177,7 +177,8 @@ const getAsH = hises =>
   getTable(
     'Account Status History',
     [nd.productType, nd.grantorBank, nd.accountType, nd.openedDate, nd.closedDate, nd.overdueBalance, nd.cf],
-    hises.map(his => [
+    // 按productType、grantorBank排序
+    hises.sort((a, b) => a.grantorBank > b.grantorBank).sort((a, b) => a.productType > b.productType).map(his => [
       his.productType,
       his.grantorBank,
       his.accountType,
