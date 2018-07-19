@@ -308,7 +308,7 @@ const getMib = mibs =>
     'Aggregated Monthly Installments',
     ['Date', nd.propJntMib, nd.propSgleMib, nd.nonPropSecJntMib, nd.nonPropSecSgleMib, nd.unsecuredMib, nd.exemptedUnsecMib],
     mibs.map(mib => [mib.mibDate, mib.propJntMib, mib.propSgleMib, mib.nonPropSecJntMib, mib.nonPropSecSgleMib, mib.unsecuredMib, mib.exemptedUnsecMib]),
-    'table table-five paddingT-td'
+    'table table-senven paddingT-td'
   )
 
 module.exports = (reqObj, resObj) =>
