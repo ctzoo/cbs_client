@@ -173,18 +173,42 @@ const getEmp = emps =>
     'table table-three'
   )
 
-const getAsH = hises =>
+function dynamicSort(property) {
+  var sortOrder = 1
+  if(property[0] === '-') {
+    sortOrder = -1
+    property = property.substr(1)
+  }
+  return function (a,b) {
+    var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0
+    return result * sortOrder
+  }
+}
+
+function dynamicSortMultiple() {
+  var props = arguments
+  return function (obj1, obj2) {
+    var i = 0, result = 0, numberOfProperties = props.length
+    while(result === 0 && i < numberOfProperties) {
+      result = dynamicSort(props[i])(obj1, obj2)
+      i++
+    }
+    return result
+  }
+}
+
+const getAsH = hises => 
   getTable(
     'Account Status History',
     [nd.productType, nd.grantorBank, nd.accountType, nd.openedDate, nd.closedDate, nd.overdueBalance, nd.cf],
     // 按productType、grantorBank排序
-    hises.sort((a, b) => a.grantorBank > b.grantorBank).sort((a, b) => a.productType > b.productType).map(his => [
+    hises.sort(dynamicSortMultiple('productType', 'grantorBank')).map(his => [
       his.productType,
-      his.grantorBank,
-      his.accountType,
-      his.openedDate,
-      his.closedDate,
-      his.overdueBalance,
+      '<div class="no-paging">' + his.grantorBank + '</div>',
+      '<div class="no-paging">' + his.accountType + '</div>',
+      '<div class="no-paging">' + his.openedDate + '</div>',
+      '<div class="no-paging">' + his.closedDate + '</div>',
+      '<div class="no-paging">' + his.overdueBalance + '</div>',
       his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
     ]),
     'table table-senven across-column paddingT-td'

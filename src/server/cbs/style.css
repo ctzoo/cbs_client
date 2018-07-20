@@ -332,3 +332,6 @@ p {
 .across-column tr td:nth-last-child(1) {
    width: 28% !important;
 }
+.no-paging {
+    page-break-inside: avoid !important;
+ }
