@@ -163,7 +163,7 @@ const getAn = ans =>
 
 const getEmp = emps => 
   getTable(
-    'Additional Names',
+    'Employment',
     [nd.dateLoaded, nd.occupation, nd.employer],
     emps.map(o => [
       o.dateLoaded,
@@ -203,13 +203,15 @@ const getAsH = hises =>
     [nd.productType, nd.grantorBank, nd.accountType, nd.openedDate, nd.closedDate, nd.overdueBalance, nd.cf],
     // 按productType、grantorBank排序
     hises.sort(dynamicSortMultiple('productType', 'grantorBank')).map(his => [
-      his.productType,
+      '<div class="no-paging">' + his.productType + '</div>',
       '<div class="no-paging">' + his.grantorBank + '</div>',
       '<div class="no-paging">' + his.accountType + '</div>',
       '<div class="no-paging">' + his.openedDate + '</div>',
       '<div class="no-paging">' + his.closedDate + '</div>',
       '<div class="no-paging">' + his.overdueBalance + '</div>',
-      his.statusSummary + '<br />' + his.cashAdvance + '<br />' + his.fullPayment,
+      '<div class="no-paging">' + his.statusSummary || '  ' + '<br />'
+       + his.cashAdvance || '  ' + '<br />' 
+       + his.fullPayment || '  ' + '</div>',
     ]),
     'table table-senven across-column paddingT-td'
   )
