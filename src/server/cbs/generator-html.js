@@ -158,7 +158,7 @@ const getAn = ans =>
       an.dateLoaded,
       an.name,
     ]),
-    'table table-six paddingT-td'
+    'table table-six'
   )
 
 const getEmp = emps => 
@@ -213,7 +213,7 @@ const getAsH = hises =>
        + (his.cashAdvance !== '' ?  his.cashAdvance : '&nbsp;&nbsp;') + '<br/>' 
        + (his.fullPayment !== '' ?  his.fullPayment : '&nbsp;&nbsp;'),
     ]),
-    'table table-senven across-column paddingT-td'
+    'table table-senven across-column'
   )
 
 const getPe = pes =>
@@ -221,7 +221,7 @@ const getPe = pes =>
     'Previous Enquiries',
     [nd.date, nd.enquiryType, nd.productType, nd.accountType],
     pes.map(pe => [pe.date, pe.enquiryType, pe.productType, pe.accountType]),
-    'table paddingT-td'
+    'table'
   )
 
 const getDr = drs =>
@@ -229,7 +229,7 @@ const getDr = drs =>
     'Default Records',
     [nd.productType, nd.client, nd.dateLoaded, nd.originalAmt, nd.balance, nd.status, nd.statusDate],
     drs.map(dr => [dr.productType, dr.client, dr.dateLoaded, dr.originalAmt, dr.balance, dr.status, dr.statusDate]),
-    'table table-senven paddingT-td'
+    'table table-senven'
   )
 
 const getTableHead = fields => `<thead><tr>${fields.map(f => `<th>${nd[f]}</th>`).join('')}</tr></thead>`
@@ -239,7 +239,7 @@ const getBp = bps =>
     'Bankruptcy Proceedings',
     [nd.bankruptcyNumber, nd.orderDate, nd.petitionDate, nd.originalOrderDate, nd.gazetteDate],
     bps.map(dr => [dr.bankruptcyNumber, dr.orderDate, dr.petitionDate, dr.originalOrderDate, dr.gazetteDate]),
-    'table table-senven paddingT-td'
+    'table table-senven'
   )
 
 const getDrs = rs =>
@@ -326,7 +326,7 @@ const getAgg = aggs =>
     'Aggregated Outstanding Balances',
     ['Date', nd.securedBalances, nd.unsecuredInterestBearingBalances, nd.unsecuredNonInterestBearingBalances, nd.exemptedBalances],
     aggs.map(agg => [agg.osbDate, agg.securedBalances, agg.unsecuredInterestBearingBalances, agg.unsecuredNonInterestBearingBalances, agg.exemptedBalances]),
-    'table table-five paddingT-td'
+    'table table-five'
   )
 
 const getMib = mibs =>
@@ -334,7 +334,7 @@ const getMib = mibs =>
     'Aggregated Monthly Installments',
     ['Date', nd.propJntMib, nd.propSgleMib, nd.nonPropSecJntMib, nd.nonPropSecSgleMib, nd.unsecuredMib, nd.exemptedUnsecMib],
     mibs.map(mib => [mib.mibDate, mib.propJntMib, mib.propSgleMib, mib.nonPropSecJntMib, mib.nonPropSecSgleMib, mib.unsecuredMib, mib.exemptedUnsecMib]),
-    'table table-senven paddingT-td'
+    'table table-senven'
   )
 
 module.exports = (reqObj, resObj) =>
