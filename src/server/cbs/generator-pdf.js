@@ -13,7 +13,7 @@ function myPdfTools(html) {
         right: '1.8cm'
       },
       header: {
-        height: '56px'
+        height: '70px'
       }
     }).toBuffer((err, buf) => (err ? reject(err) : resolve(buf)))
   )
