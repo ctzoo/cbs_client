@@ -3,12 +3,7 @@ const gt = require('./generator-txt')
 const gp = require('./generator-pdf')
 const validate = require('./inputValidation')
 const xlsx = require('node-xlsx').default
-const pkg = require('./pkg')
-const unpkg = require('./unpkg')
-const {
-  saveCbsEnquiryInfo,
-  getCbsEnquiryInfo
-} = require('../storages/CBS')
+const pkg = require('./xlsxParser')
 
 const {
   ERROR,
@@ -20,24 +15,6 @@ const {
   ERROR_REPORT_COMPLETED,
 } = require('../../consts')
 
-const inputFieldNames = [
-  'accountType',
-  'amount',
-  'enquiryReference',
-  'enquiryType',
-  'productType',
-  'idType',
-  'idNumber',
-  'customerName',
-  'dateOfBirth',
-  'gender',
-  'maritalStatus',
-  'applicantType',
-  'addressType',
-  'addressFormat',
-  'postalCode',
-]
-const makeReqData = xlsxRow => inputFieldNames.reduce((s, e, i) => ((s[e] = xlsxRow[i]), s), {})
 module.exports = async function (reqData /* request byte data */ , ad /* action dispach */ , send) {
   const worksheets = xlsx.parse(reqData)
   const err = validate(worksheets)
@@ -63,24 +40,16 @@ module.exports = async function (reqData /* request byte data */ , ad /* action 
       count: pkgs[j][1].length
     })
     for (let i = 0; i < pkgs[j][1].length; i++) {
-      const r = pkgs[j][1][i]
-      const res = await getCbsEnquiryInfo(r.name, r.data) || await send(r.data)
-      const reqData = makeReqData(worksheets[j].data[i])
-      const resData = typeof res === 'string' ? unpkg(res) : res.res
+      const req = pkgs[j][1][i]
+      const resData = await send(req.data)
       if (resData.isErr) {
         errs.push({
-          req: pkgs[j][1][i].data,
-          res: resData.res
+          req: JSON.stringify(req.data),
+          res: JSON.stringify(resData)
         })
       } else {
-        if (typeof res === 'string')
-          await saveCbsEnquiryInfo({
-            name: r.name,
-            req: r.data,
-            res: resData
-          })
         allResData = allResData.concat(resData.items)
-        const htmls = gh(reqData, resData.items)
+        const htmls = gh(req.data, resData.items)
         ret.htmls = ret.htmls.concat(htmls)
       }
       ad(ONE_RECORD_COMPLETED, {

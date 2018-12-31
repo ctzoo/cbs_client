@@ -1,26 +1,20 @@
 const fetch = require('axios').default
-const { getFetchSetting } = require('./storages/CBS')
 const logger = require('./logger')('cbs-fetch')
 
-module.exports = async function cbsFetch(data) {
-  const { clientId, userId, runNo, cbsUrl, username, password } = await getFetchSetting()
-  const cbsReq = data
-    .replace('{clientId}', clientId)
-    .replace('{userId}', userId)
-    .replace('{runNo}', runNo)
-
-  logger.info('begin send:\n%o', cbsReq)
-  const res = await fetch(cbsUrl, {
+module.exports = function cbsFetch(data) {
+  logger.info('begin send:\n%o', data)
+  return fetch('http://localhost:8080/cbs', {
     method: 'POST',
-    data: cbsReq,
-    auth: {
-      username,
-      password,
-    },
     headers: {
-      'Content-Type': 'text/html;charset=UTF-8',
+      'Content-Type': 'application/json;charset=UTF-8',
     },
+    data,
+    responseType: 'json',
+  }).then(res => {
+    logger.info('revice:\n%o', res.data)
+    return res.status === 200 ? res.data : { isErr: true, items: res.data }
+  }).catch(err => {
+    logger.error('revice:\n%o', err.response ? err.response.data : err.message)
+    return ({ isErr: true, items: err.response ? err.response.data : err.message })
   })
-  logger.info('revice:\n%o', res.data)
-  return res.data
 }
