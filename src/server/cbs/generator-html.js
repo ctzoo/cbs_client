@@ -33,7 +33,7 @@ const enquiryDate = time.getFullYear() + '-' + month + '-' + time.getDate()
 
 const getHead = (enquiryNo, enquiryDate, Reference) => `
 <div style="text-align: left;  font-family: Verdana; font-size: 10.5pt;">
-  Gredit Bureau（Singapore）Pte Ltd<br/>
+  Credit Bureau（Singapore）Pte Ltd<br/>
   <i style="font-size: 6.5pt">A subdidiary Infocredit Holdings</i>
   <div style="width: 100%; font-size: 8pt; padding-top: 6px">
     <span style="display: inline-block; width: 32%">Enquiry No.:${enquiryNo}</span>
