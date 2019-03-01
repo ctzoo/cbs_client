@@ -27,10 +27,6 @@ const template = (head, container) =>
 </html>
 `.replace('{css-style}', cssBuf)
 
-const time = new Date()
-const month = time.getMonth() + 1
-const enquiryDate = time.getFullYear() + '-' + month + '-' + time.getDate()
-
 const getHead = (enquiryNo, enquiryDate, Reference) => `
 <div style="text-align: left;  font-family: Verdana; font-size: 10.5pt;">
   Credit Bureau（Singapore）Pte Ltd<br/>
@@ -340,6 +336,9 @@ const getMib = mibs =>
 module.exports = (reqObj, resObj) =>
   resObj
     .map(item => {
+      const time = new Date()
+      const month = time.getMonth() + 1
+      const enquiryDate = time.getFullYear() + '-' + month + '-' + time.getDate()
       const enquiryInfo = item.enquiryInfo
       return item.consumerInfos.map(consumer => {
         const head = getHead(enquiryInfo.enquiryNo, enquiryDate, enquiryInfo.enquiryRef)
