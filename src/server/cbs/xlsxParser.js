@@ -16,11 +16,15 @@ const xlsxFieldNames = [
   'postalCode',
   'streetName',
   'stateCityName',
-  'countryCode'
+  'countryCode',
+  'blkHseBldgNumber',
+  'storeyNumber',
+  'unitNumber',
+  'buildingName'
 ]
 
 function makeRow(row) {
-  return xlsxFieldNames.reduce((s, e, i) => ((s[e] = row[i] + ''), s), {})
+  return xlsxFieldNames.reduce((s, e, i) => ((s[e] = row[i] ? row[i] + '' : ''), s), {})
 }
 
 function makeWorksheet(worksheet) {
